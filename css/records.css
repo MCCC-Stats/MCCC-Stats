@@ -1,0 +1,596 @@
+
+/* ==========================================
+   MCCC STATS — RECORDS
+   ========================================== */
+
+.records-page {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 38px 20px 80px;
+}
+
+.records-page [hidden] {
+  display: none !important;
+}
+
+.records-heading {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.records-heading h1 {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 800;
+}
+
+.records-heading p {
+  margin: 8px 0 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* FILTERS */
+
+.records-filters,
+.records-panel,
+.records-game,
+.records-highlight {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.records-filters {
+  padding: 22px 26px;
+  margin-bottom: 22px;
+}
+
+.records-filters-title {
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.records-filters-title h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.records-filters-title p,
+.records-section-heading p {
+  margin: 5px 0 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.records-filter-controls {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.records-filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 160px;
+}
+
+.records-filter-field span {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.records-filter-field select {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 12px;
+  background: var(--bg-main);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color 180ms ease,
+              box-shadow 180ms ease;
+}
+
+.records-filter-field select:hover,
+.records-filter-field select:focus-visible {
+  border-color: var(--accent);
+}
+
+.records-filter-field select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.records-filter-check {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 42px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.records-filter-check input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--accent);
+}
+
+.records-status {
+  margin: 0 0 28px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+/* SECTIONS */
+
+.records-section {
+  margin-bottom: 34px;
+  min-width: 0;
+}
+
+.records-section-heading {
+  margin-bottom: 14px;
+}
+
+.records-section-heading h2 {
+  margin: 0;
+  font-size: 23px;
+}
+
+.records-panel,
+.records-game {
+  overflow: hidden;
+}
+
+/* HALL OF FAME */
+
+.records-highlights {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.records-highlight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 22px 12px;
+  text-align: center;
+  transition:
+    border-color 240ms ease,
+    background-color 240ms ease,
+    box-shadow 240ms ease;
+}
+
+.records-highlight:hover {
+  border-color: var(--accent);
+  box-shadow: 0 7px 24px rgba(0, 0, 0, .13);
+}
+
+.records-highlight-label {
+  min-height: 30px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+
+.records-highlight-value {
+  color: var(--accent);
+  font-size: clamp(22px, 2.7vw, 30px);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.records-highlight-holders {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.records-highlight-identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+}
+
+.records-highlight-identity img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  transition: transform 220ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.records-highlight-identity:hover img {
+  transform: scale(1.09);
+}
+
+.records-highlight-name {
+  font-size: 13px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.records-highlight-identity small {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.records-highlight a:hover {
+  text-decoration: underline;
+}
+
+/* RECORD TABLES */
+
+.records-table-head,
+.records-record {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.45fr)
+    minmax(100px, .6fr)
+    minmax(0, 1.3fr)
+    minmax(0, .8fr);
+  gap: 16px;
+  align-items: center;
+  padding: 14px 18px;
+}
+
+.records-table-head {
+  background: var(--bg-main);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.records-record {
+  min-height: 68px;
+  border-top: 1px solid var(--border-color);
+  font-size: 13px;
+  transition: background-color 180ms ease;
+}
+
+.records-record:hover {
+  background: var(--bg-hover);
+}
+
+.records-record-label {
+  font-weight: 650;
+}
+
+.records-record-value {
+  color: var(--accent);
+  font-size: 19px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.records-holder-cell {
+  min-width: 0;
+}
+
+.records-direct-holders {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.records-direct-holder {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.records-direct-holder small {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.records-holder {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.records-holder img {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  object-fit: contain;
+  image-rendering: pixelated;
+  transition: transform 220ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.records-holder:hover img {
+  transform: scale(1.13);
+}
+
+.records-holder.team img {
+  width: 34px;
+  height: 34px;
+}
+
+.records-holder a:hover,
+.records-event a:hover {
+  text-decoration: underline;
+}
+
+.records-event {
+  color: var(--text-secondary);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.records-event a {
+  color: inherit;
+}
+
+/* STREAK EVENT RANGES */
+
+.records-streak-range {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.records-streak-range a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--border-color);
+  text-underline-offset: 3px;
+}
+
+.records-streak-range a:hover {
+  color: var(--accent);
+}
+
+.records-streak-arrow {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* GAME SECTIONS */
+
+.records-game-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.records-game {
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease;
+}
+
+.records-game:hover {
+  border-color: var(--accent);
+}
+
+.records-game-summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 15px 18px;
+  color: var(--text-primary);
+  background: transparent;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+.records-game-summary:hover {
+  background: var(--bg-hover);
+}
+
+.records-game-summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+}
+
+.records-game-summary img {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  object-fit: contain;
+  transition: transform 240ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.records-game-summary:hover img {
+  transform: scale(1.08);
+}
+
+.records-game-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+
+.records-game-info strong {
+  font-size: 15px;
+}
+
+.records-game-info small {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.records-game-arrow {
+  color: var(--text-muted);
+  font-size: 22px;
+  transition: transform 300ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.records-game-summary[aria-expanded="true"] .records-game-arrow {
+  transform: rotate(90deg);
+}
+
+.records-game-body {
+  border-top: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.records-empty {
+  padding: 22px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* ANIMATION HELPERS */
+
+.records-animated-number {
+  font-variant-numeric: tabular-nums;
+}
+
+.records-page a {
+  transition: color 160ms ease;
+}
+
+.records-page a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .records-highlights {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .records-table-head,
+  .records-record {
+    grid-template-columns:
+      minmax(0, 1.2fr)
+      minmax(90px, .6fr)
+      minmax(0, 1.2fr);
+    gap: 12px;
+  }
+
+  .records-table-head span:last-child,
+  .records-record > .records-event {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .records-page {
+    padding: 24px 12px 55px;
+  }
+
+  .records-filters {
+    padding: 18px;
+  }
+
+  .records-filter-field {
+    flex: 1 1 130px;
+    min-width: 0;
+  }
+
+  .records-filter-check {
+    width: 100%;
+    min-height: 26px;
+  }
+
+  .records-section-heading h2 {
+    font-size: 20px;
+  }
+
+  .records-highlight {
+    padding: 18px 8px;
+  }
+
+  .records-highlight-identity img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .records-table-head,
+  .records-record {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .records-table-head span:nth-child(3) {
+    display: none;
+  }
+
+  .records-record > .records-holder-cell {
+    grid-column: 1 / -1;
+  }
+
+  .records-record-value {
+    font-size: 18px;
+  }
+
+  .records-game-summary {
+    padding: 12px;
+  }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  .records-page *,
+  .records-page *::before,
+  .records-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* Prevent game dropdowns from affecting layout
+   before their height animation begins. */
+
+.records-game-body {
+  overflow: hidden;
+  height: auto;
+}
+
+.records-game-body[hidden] {
+  display: none !important;
+}
+
+.records-game {
+  overflow: hidden;
+}
+
+.records-game-summary {
+  position: relative;
+  z-index: 1;
+}

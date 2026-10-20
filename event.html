@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+          <link rel="icon" type="image/png" href="logo.png?v=2">
+
+    <title>MCCC Event - MCCC Stats</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+    
+<!-- NAVIGATION -->
+<header class="site-header">
+    <nav class="navbar">
+
+        <div class="navbar-start">
+            <img src="logo.png" alt="MCCC Logo"
+     style="width:32px;height:32px;object-fit:contain;vertical-align:middle;margin-right:10px;">
+            <a href="index.html" class="navbar-brand">
+                MCCC Stats
+            </a>
+        </div>
+
+        <!-- Navbar player search -->
+        <div class="navbar-search">
+            <label for="navbar-player-search" class="sr-only">
+                Search for a player
+            </label>
+
+            <input
+                type="search"
+                id="navbar-player-search"
+                class="navbar-search-input"
+                placeholder="Search player..."
+                autocomplete="off"
+            >
+
+            <div
+                id="navbar-search-results"
+                class="navbar-search-results"
+                hidden
+            ></div>
+        </div>
+
+        <div class="navbar-end">
+            <a href="index.html" class="nav-link">
+                Home
+            </a>
+
+            <a href="events.html" class="nav-link active"
+               aria-current="page">
+                Events
+            </a>
+
+            <a href="players.html" class="nav-link">
+                Players
+            </a>
+            <a href="compare.html" class="nav-link">Compare</a>
+            <a class="nav-link" href="records.html">Records</a>
+        </div>
+
+    </nav>
+</header>
+
+
+
+    <main>
+
+        <!-- EVENT BANNER -->
+
+        <section
+            class="hero event-detail-hero bg-main-lobby"
+            id="event-banner"
+        >
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+                <div class="hero-inner">
+
+                    <h1 class="event-detail-title"
+                        id="event-title">
+                        MCCC 1
+                    </h1>
+
+                    <p class="event-detail-date"
+                       id="event-date"></p>
+
+                </div>
+            </div>
+        </section>
+
+
+        <div class="event-detail-container">
+
+            <!-- TEAM LIST -->
+
+            <section
+                id="event-teams"
+                class="homepage-section"
+            >
+
+                <div class="section-header">
+
+                    <h2 class="section-title">
+                        Team List
+                    </h2>
+
+                    <div class="info-dropdown">
+                        <button
+                            type="button"
+                            class="info-button"
+                            aria-label="About the team list"
+                        >
+                            ⓘ
+                        </button>
+
+                        <div class="info-content">
+                            These are the teams that
+                            participated in this event.
+                            Click a player to view
+                            their statistics.
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="section-content">
+
+                    <div
+                        class="team-grid event-detail-team-grid"
+                        id="event-detail-teams"
+                    >
+                        <!-- Filled by js/event.js -->
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- EVENT BREAKDOWN -->
+
+            <section
+                id="event-breakdown"
+                class="homepage-section"
+            >
+
+                <div class="section-header">
+
+                    <h2 class="section-title">
+                        Event Breakdown
+                    </h2>
+
+                </div>
+
+                <div class="section-content">
+
+                    <!-- MULTIPLIER OPTION -->
+
+                    <label class="event-score-toggle">
+
+                        <span>
+                            Show unmultiplied scores
+                        </span>
+
+                        <input
+                            type="checkbox"
+                            id="event-unmultiplied"
+                        >
+
+                    </label>
+
+
+                    <!-- TEAM / INDIVIDUAL TABS -->
+
+                    <div
+                        class="event-breakdown-tabs"
+                        role="tablist"
+                        aria-label="Leaderboard type"
+                    >
+
+                        <button
+                            type="button"
+                            class="event-breakdown-tab active"
+                            id="event-team-tab"
+                            role="tab"
+                            aria-selected="true"
+                            aria-controls="event-team-panel"
+                        >
+                            Team
+                        </button>
+
+                        <button
+                            type="button"
+                            class="event-breakdown-tab"
+                            id="event-individual-tab"
+                            role="tab"
+                            aria-selected="false"
+                            aria-controls="event-individual-panel"
+                        >
+                            Individual
+                        </button>
+
+                    </div>
+
+
+                    <!-- TEAM BREAKDOWN -->
+
+                    <div
+                        class="event-breakdown-panel"
+                        id="event-team-panel"
+                        role="tabpanel"
+                        aria-labelledby="event-team-tab"
+                    >
+
+                        <div class="event-table-scroll">
+
+                            <table class="event-breakdown-table">
+
+                                <thead id="event-team-head">
+                                </thead>
+
+                                <tbody id="event-team-body">
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- INDIVIDUAL BREAKDOWN -->
+
+                    <div
+                        class="event-breakdown-panel"
+                        id="event-individual-panel"
+                        role="tabpanel"
+                        aria-labelledby="event-individual-tab"
+                        hidden
+                    >
+
+                        <div class="event-table-scroll">
+
+                            <table class="event-breakdown-table">
+
+                                <thead id="event-individual-head">
+                                </thead>
+
+                                <tbody id="event-individual-body">
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>MCCC Stats</p>
+            <p class="footer-description">
+                Minecraft Championship Copy statistics.
+            </p>
+        </div>
+    </footer>
+
+
+    <!-- SCRIPTS -->
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/event.js"></script>
+
+</body>
+</html>

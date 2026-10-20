@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="logo.png?v=2">
+  <title>Player Comparison | MCCC Stats</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/compare.css">
+</head>
+<body>
+<header class="site-header">
+  <nav class="navbar">
+    <div class="navbar-start">
+      <img src="logo.png" alt="MCCC Logo"
+     style="width:32px;height:32px;object-fit:contain;vertical-align:middle;margin-right:10px;">
+      <a href="index.html" class="navbar-brand">MCCC Stats</a>
+    </div>
+    <div class="navbar-search">
+      <label class="sr-only" for="navbar-player-search">Search for a player</label>
+      <input type="search" id="navbar-player-search"
+             class="navbar-search-input"
+             placeholder="Search player..." autocomplete="off">
+      <div id="navbar-search-results"
+           class="navbar-search-results" hidden></div>
+    </div>
+    <div class="navbar-end">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="events.html">Events</a>
+      <a class="nav-link" href="players.html">Players</a>
+      <a href="compare.html" class="nav-link active" aria-current="page">Compare</a>
+      <a class="nav-link" href="records.html">Records</a>
+    </div>
+  </nav>
+</header>
+
+<main class="compare-page">
+  <div class="compare-heading">
+    <h1>Player Comparison</h1>
+    <p>Explore similarities, differences and individual strengths.</p>
+  </div>
+
+  <section class="compare-versus" aria-label="Select players">
+
+    <div class="compare-contender compare-left">
+      <img id="compare-avatar-a"
+     src="https://mc-heads.net/body/weeakneSSS/180"
+     alt="Select player 1"
+     class="compare-placeholder">
+
+      <label for="compare-player-a">Player 1</label>
+
+      <div class="compare-player-search">
+        <input id="compare-player-a"
+               type="search"
+               placeholder="Search player..."
+               autocomplete="off"
+               aria-controls="compare-results-a"
+               aria-autocomplete="list">
+
+        <div id="compare-results-a"
+             class="compare-player-results"
+             role="listbox"
+             hidden></div>
+      </div>
+
+      <a id="compare-profile-a" href="#" hidden>
+        View Profile ↗
+      </a>
+    </div>
+
+    <div class="compare-vs">
+      <strong>COMPARE</strong>
+      <button type="button"
+              id="compare-swap"
+              title="Swap players">
+        ⇄ Swap
+      </button>
+    </div>
+
+    <div class="compare-contender compare-right">
+      <img id="compare-avatar-b"
+     src="https://mc-heads.net/body/weeakneSSS/180"
+     alt="Select player 2"
+     class="compare-placeholder">
+
+      <label for="compare-player-b">Player 2</label>
+
+      <div class="compare-player-search">
+        <input id="compare-player-b"
+               type="search"
+               placeholder="Search player..."
+               autocomplete="off"
+               aria-controls="compare-results-b"
+               aria-autocomplete="list">
+
+        <div id="compare-results-b"
+             class="compare-player-results"
+             role="listbox"
+             hidden></div>
+      </div>
+
+      <a id="compare-profile-b" href="#" hidden>
+        View Profile ↗
+      </a>
+    </div>
+  </section>
+
+  <section class="compare-filters" aria-label="Comparison settings">
+    <div class="compare-filters-heading">
+      <span class="compare-filters-icon">⚙</span>
+      <div>
+        <h2>Comparison Settings</h2>
+        <p>Customise the statistics shown below.</p>
+      </div>
+    </div>
+
+    <div class="compare-filters-content">
+      <div class="compare-filter-selects">
+
+        <label class="compare-filter-field" for="compare-season">
+          <span>Events</span>
+          <select id="compare-season">
+  <option value="last1">Last 1</option>
+  <option value="last2">Last 2</option>
+  <option value="last3">Last 3</option>
+  <option value="last5">Last 5</option>
+  <option value="1">Season 1</option>
+  <option value="2">Season 2</option>
+  <option value="all"selected>All Events</option>
+</select>
+        </label>
+
+        <label class="compare-filter-field" for="compare-mode">
+          <span>Scoring</span>
+          <select id="compare-mode">
+            <option value="normalized" selected>Normalised</option>
+            <option value="raw">Raw Scores</option>
+          </select>
+        </label>
+
+      </div>
+
+      <div class="compare-filter-toggles">
+        <label class="compare-toggle">
+          <span class="compare-toggle-label">
+            Include Non-Canon Events
+          </span>
+          <input type="checkbox" id="compare-noncanon">
+          <span class="compare-toggle-switch"
+                aria-hidden="true"></span>
+        </label>
+
+        <label class="compare-toggle">
+          <span class="compare-toggle-label">
+            Include Incomplete Events
+          </span>
+          <input type="checkbox" id="compare-incomplete">
+          <span class="compare-toggle-switch"
+                aria-hidden="true"></span>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <p id="compare-status"
+     class="compare-status"
+     aria-live="polite">
+    Select two players to begin.
+  </p>
+
+  <div id="compare-results" class="compare-results" hidden>
+
+    <section class="compare-panel">
+      <h2>Event Statistics</h2>
+
+      <div class="compare-stat-headings">
+        <span id="compare-stat-name-a">Player 1</span>
+        <span>STATISTIC</span>
+        <span id="compare-stat-name-b">Player 2</span>
+      </div>
+
+      <div id="compare-stats" class="compare-stats"></div>
+    </section>
+
+    <section class="compare-panel">
+      <h2>Shared Event Results</h2>
+
+      <p class="compare-muted">
+        Events both players participated in. The highlighted player
+        achieved the higher individual placement.
+      </p>
+
+      <div id="compare-record" class="compare-record"></div>
+      <div id="compare-shared" class="compare-shared"></div>
+    </section>
+
+    <section class="compare-panel">
+      <h2>Game Breakdown</h2>
+
+      <p class="compare-muted">
+        Compare average placement percentile, average coins and games
+        played. A higher percentile represents a higher game placement.
+      </p>
+
+      <div class="compare-radar-wrap">
+        <canvas id="compare-radar"
+                role="img"
+                aria-label="Game placement percentile comparison">
+        </canvas>
+      </div>
+
+      <div id="compare-legend" class="compare-legend"></div>
+
+      <div class="compare-table-scroll">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Game</th>
+              <th id="compare-game-head-a">Player 1</th>
+              <th id="compare-game-head-b">Player 2</th>
+            </tr>
+          </thead>
+          <tbody id="compare-games"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/compare.js"></script>
+</body>
+</html>

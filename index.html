@@ -1,0 +1,445 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="logo.png?v=2">
+
+    <title>MCCC Stats</title>
+    <meta name="description"
+          content="MCCC Stats - View Minecraft Championship Copy events, teams, players and statistics.">
+
+    <!-- ReafyStats-style font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- Our stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <!-- =============================== -->
+    <!-- NAVIGATION BAR                  -->
+    <!-- =============================== -->
+
+    
+<header class="site-header">
+  <nav class="navbar">
+
+    <div class="navbar-start">
+        <img src="logo.png" alt="MCCC Logo"
+     style="width:32px;height:32px;object-fit:contain;vertical-align:middle;margin-right:10px;">
+      <a href="index.html" class="navbar-brand">
+        MCCC Stats
+      </a>
+    </div>
+
+    <div class="navbar-end">
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="events.html" class="nav-link">Events</a>
+      <a href="players.html" class="nav-link">Players</a>
+      <a href="compare.html" class="nav-link">Compare</a>
+      <a class="nav-link" href="records.html">Records</a>
+    </div>
+
+  </nav>
+</header>
+
+
+
+    <!-- =============================== -->
+    <!-- MAIN CONTENT                    -->
+    <!-- =============================== -->
+
+    <main>
+
+        <!-- =========================== -->
+        <!-- HERO / PLAYER SEARCH        -->
+        <!-- =========================== -->
+
+        <section class="hero bg-main-lobby">
+
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+
+                <div class="hero-inner">
+
+                    <h1 class="hero-title">
+                        MCCC Stats
+                    </h1>
+
+                    <p class="hero-description">
+                        Look up an MCCC player's statistics
+                        in a single search!
+                    </p>
+
+                    <div class="search-container">
+
+                        <label for="player-search" class="sr-only">
+                            Search for a player
+                        </label>
+
+                        <input
+                            type="search"
+                            id="player-search"
+                            class="player-search-input"
+                            placeholder="Search player..."
+                            autocomplete="off"
+                        >
+
+                        <div
+                            id="player-search-results"
+                            class="search-results"
+                            hidden
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================== -->
+        <!-- HOMEPAGE SECTIONS           -->
+        <!-- =========================== -->
+
+        <div class="homepage-container">
+
+            <!-- ======================= -->
+            <!-- EVENT TEAMS             -->
+            <!-- ======================= -->
+
+            <section id="event-teams" class="homepage-section">
+
+                <div class="section-header">
+
+                    <h2 class="section-title">
+                        Next Event
+                    </h2>
+
+                    <div class="info-dropdown">
+
+                        <button
+                            type="button"
+                            class="info-button"
+                            aria-label="About event teams"
+                            title="About event teams"
+                        >
+                            ⓘ
+                        </button>
+
+                        <div class="info-content">
+                            This section displays the teams
+                            for the selected MCCC event.
+                            Click on a player to access
+                            their individual statistics!
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="section-content">
+
+                    <div class="team-grid" id="event-team-grid">
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ======================= -->
+            <!-- EVENT PROJECTION        -->
+            <!-- ======================= -->
+
+            <section id="event-projection" class="homepage-section">
+
+                <div class="section-header">
+
+                    <h2 class="section-title">
+                        Event Projection
+                    </h2>
+
+                    <div class="info-dropdown">
+
+                        <button
+                            type="button"
+                            class="info-button"
+                            aria-label="About event projection"
+                            title="About event projection"
+                        >
+                            ⓘ
+                        </button>
+
+                        <div class="info-content">
+                            This section estimates the relative
+                            strength of teams based on players'
+                            previous performances.
+
+                            Player averages are combined
+                            to calculate projected team scores.
+
+                            These are only predictions!
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="section-content">
+
+                    <div class="projection-layout">
+
+                        <!-- LEFT COLUMN -->
+
+                        <div class="projection-sidebar">
+
+                            <div class="projection-settings">
+
+                                <label
+                                    for="projection-game"
+                                    class="settings-label"
+                                >
+                                    Game
+                                </label>
+
+                                <div class="game-select-container">
+
+                                    <img src="assets/stats/all.webp" class="selected-game-icon" alt="">
+
+                                    <select
+                                        id="projection-game"
+                                        class="game-select"
+                                    >
+
+                                        <option value="event">
+                                            Event Performances
+                                        </option>
+
+                                        <optgroup label="Games">
+
+                                            <option value="battle_box">
+                                                Battle Box
+                                            </option>
+
+                                            <option value="sky_battle">
+                                                Sky Battle
+                                            </option>
+
+                                            <option value="hole_in_the_wall">
+                                                Hole in the Wall
+                                            </option>
+
+                                            <option value="rocket_spleef_rush">
+                                                Rocket Spleef Rush
+                                            </option>
+
+                                            <option value="tgttos">
+                                                TGTTOS
+                                            </option>
+
+                                            <option value="parkour_warrior">
+                                                Parkour Warrior
+                                            </option>
+
+                                        </optgroup>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- INDIVIDUAL LEADERBOARD -->
+
+                            <div class="projection-leaderboard">
+
+                                <h3 class="projection-subtitle">
+                                    Individual Leaderboard
+                                </h3>
+
+                                <div class="table-container">
+
+                                    <table class="stats-table">
+
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Name</th>
+                                                <th>Coins</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody id="projection-individual-body">
+                                            <!-- Filled by projection.js -->
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                        </div> <!-- projection-sidebar -->
+
+
+                        <!-- RIGHT COLUMN -->
+
+                        <div class="projection-main">
+
+                            <h3 class="projection-subtitle">
+                                Team Leaderboard (coins)
+                            </h3>
+
+                            <div id="projection-team-results" hidden></div>
+
+                            <div
+                                id="projection-chart"
+                                class="projection-chart"
+                            ></div>
+
+
+                            <!-- PROJECTION SETTINGS -->
+
+                            <div class="projection-options">
+
+                                <h3 class="projection-subtitle">
+                                    Projection Settings
+                                </h3>
+
+                                <div class="projection-option">
+
+                                    <label for="projection-events-count">
+                                        Number of previous events
+                                    </label>
+
+                                    <select id="projection-events-count">
+                                        <option value="1">Last 1</option>
+                                        <option value="2">Last 2</option>
+                                        <option value="3" selected>Last 3</option>
+                                        <option value="5">Last 5</option>
+                                        <option value="season1">Season 1</option>
+                                        <option value="season2">Season 2</option>
+                                        <option value="all">All Events</option>
+                                    </select>
+
+                                </div>
+
+                                <div class="projection-option">
+
+                                    <label for="projection-order-mode">
+                                        Game order
+                                    </label>
+
+                                    <select id="projection-order-mode">
+                                        <option value="average" selected>
+                                            Average All Orders
+                                        </option>
+                                        <option value="custom">
+                                            Custom Order
+                                        </option>
+                                        <option value="random">
+                                            Random Order
+                                        </option>
+                                    </select>
+
+                                </div>
+
+                            </div> <!-- projection-options -->
+
+
+                            <!-- HORIZONTAL GAME ORDER -->
+                            <!-- Now inside the RIGHT column -->
+
+                            <div
+                                id="projection-order-controls"
+                                class="projection-order-controls"
+                                hidden
+                            >
+
+                                <div class="projection-order-header">
+
+                                    <div>
+                                        <h3 class="projection-subtitle">
+                                            Game Order
+                                        </h3>
+
+                                        <p class="projection-order-description">
+                                            Drag games to rearrange their order.
+                                            Multipliers are determined by position.
+                                        </p>
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        id="projection-randomize"
+                                        hidden
+                                    >
+                                        Shuffle Order
+                                    </button>
+
+                                </div>
+
+                                <div
+                                    id="projection-order-list"
+                                    class="projection-order-list"
+                                ></div>
+
+                            </div> <!-- projection-order-controls -->
+
+                        </div> <!-- projection-main -->
+
+                    </div> <!-- projection-layout -->
+
+                </div> <!-- section-content -->
+
+            </section> <!-- event-projection -->
+
+        </div> <!-- homepage-container -->
+
+    </main>
+
+
+    <!-- =============================== -->
+    <!-- FOOTER                          -->
+    <!-- =============================== -->
+
+    <footer class="site-footer">
+
+        <div class="footer-content">
+
+            <p>
+                MCCC Stats
+            </p>
+
+            <p class="footer-description">
+                A statistics website for Minecraft
+                Championship Copy.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =============================== -->
+    <!-- JAVASCRIPT                      -->
+    <!-- =============================== -->
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/projection.js"></script>
+
+</body>
+</html>

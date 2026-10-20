@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="logo.png?v=2">
+
+    <title>Player Profile | MCCC Stats</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <header class="site-header">
+        <nav class="navbar">
+
+            <div class="navbar-start">
+                <img src="logo.png" alt="MCCC Logo"
+                     style="width:32px;height:32px;object-fit:contain;vertical-align:middle;margin-right:10px;">
+                <a href="index.html" class="navbar-brand">
+                    MCCC Stats
+                </a>
+            </div>
+
+            <!-- Navbar player search -->
+            <div class="navbar-search">
+                <label for="navbar-player-search" class="sr-only">
+                    Search for a player
+                </label>
+
+                <input
+                    type="search"
+                    id="navbar-player-search"
+                    class="navbar-search-input"
+                    placeholder="Search player..."
+                    autocomplete="off"
+                >
+
+                <div
+                    id="navbar-search-results"
+                    class="navbar-search-results"
+                    hidden
+                ></div>
+            </div>
+
+            <div class="navbar-end">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="events.html" class="nav-link">Events</a>
+                <a href="players.html" class="nav-link active">Players</a>
+                <a href="compare.html" class="nav-link">Compare</a>
+                <a class="nav-link" href="records.html">Records</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- PLAYER PROFILE -->
+    <main class="player-page">
+        <div class="player-layout">
+
+            <!-- LEFT SIDEBAR -->
+            <aside class="player-sidebar">
+
+                <div class="player-identity">
+                    <h1 id="player-name">Loading...</h1>
+
+                    <img
+                        id="player-skin"
+                        class="player-skin"
+                        src=""
+                        alt="Minecraft player skin"
+                    >
+                </div>
+
+                <section class="player-filters">
+                    <h2>Filters</h2>
+
+                    <div class="player-score-mode">
+                        <span class="player-score-mode-title">Score Display</span>
+
+                        <div class="player-score-toggle">
+                            
+<button
+    type="button"
+    data-score-mode="raw"
+    aria-pressed="false"
+>
+    Raw
+</button>
+
+<button
+    type="button"
+    class="active"
+    data-score-mode="normalized"
+    aria-pressed="true"
+>
+    Normalised
+</button>
+
+                        </div>
+
+                        <small>Normalised scores use a 5-team baseline.</small>
+                    </div>
+
+                    <label for="player-season">
+                        Select season
+                    </label>
+
+                    <select id="player-season">
+                        <option value="all">All seasons</option>
+                        <option value="1">Season 1</option>
+                        <option value="2">Season 2</option>
+                    </select>
+
+                    <label class="player-filter-checkbox">
+                        <span>Include non-canon events</span>
+                        <input type="checkbox" id="player-noncanon">
+                    </label>
+                </section>
+
+            </aside>
+
+            <!-- MAIN CONTENT -->
+            <div class="player-content">
+
+                <!-- EVENT STATISTICS -->
+                <section class="player-section">
+                    <h2>Event Statistics</h2>
+
+                    <div class="player-stat-group">
+
+                        <div class="player-stat-card">
+                            <div class="player-stat-info">
+                                <span class="player-stat-label">
+                                    Event Coin Average
+                                </span>
+                                <strong id="player-coin-average">—</strong>
+                            </div>
+                            <span class="player-stat-icon" aria-hidden="true">
+                                <img src="assets/stats/coin.webp" alt="">
+                            </span>
+                        </div>
+
+                        <div class="player-stat-card">
+                            <div class="player-stat-info">
+                                <span class="player-stat-label">
+                                    Event Rank Average
+                                </span>
+                                <strong id="player-rank-average">—</strong>
+                            </div>
+                            <span class="player-stat-icon" aria-hidden="true">
+                                <img src="assets/stats/rank.webp" alt="">
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="player-stat-group player-participation">
+
+                        <div class="player-stat-card">
+                            <div class="player-stat-info">
+                                <span class="player-stat-label">Wins</span>
+                                <strong id="player-wins">—</strong>
+                            </div>
+                            <span class="player-stat-icon" aria-hidden="true">
+                                <img src="assets/stats/crown.webp" alt="">
+                            </span>
+                        </div>
+
+                        <div class="player-stat-card">
+                            <div class="player-stat-info">
+                                <span class="player-stat-label">
+                                    Dodgebolts
+                                </span>
+                                <strong id="player-dodgebolts">—</strong>
+                            </div>
+                            <span class="player-stat-icon" aria-hidden="true">
+                                <img src="assets/stats/dodgebolt.webp" alt="">
+                            </span>
+                        </div>
+
+                        <div class="player-stat-card">
+                            <div class="player-stat-info">
+                                <span class="player-stat-label">Events</span>
+                                <strong id="player-events">—</strong>
+                            </div>
+                            <span class="player-stat-icon" aria-hidden="true">
+                                <img src="assets/stats/spectator.webp" alt="">
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <!-- EVENT HISTORY -->
+                    <div class="player-table-wrapper">
+                        <table class="player-history-table">
+                            <thead>
+                                <tr>
+                                    <th>MCCC</th>
+                                    <th>Team</th>
+                                    <th>Coins</th>
+                                    <th>Rank</th>
+                                </tr>
+                            </thead>
+                            <tbody id="player-history-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                
+<!-- PLAYER PROGRESSION -->
+<section class="player-section player-progression-section">
+    <h2>Player Progression</h2>
+
+    <div class="player-progression-panel">
+        <div class="player-progression-controls">
+
+            <label>
+                Statistic
+                <select id="progress-metric">
+                    <option value="coins">Coins</option>
+                    <option value="rank">Individual Placement</option>
+                </select>
+            </label>
+
+            <label>
+                Game
+                <select id="progress-game">
+                    <option value="all">Overall Event</option>
+                    <option value="sky_battle">Sky Battle</option>
+                    <option value="rocket_spleef_rush">Rocket Spleef Rush</option>
+                    <option value="tgttos">TGTTOS</option>
+                    <option value="hole_in_the_wall">Hole in the Wall</option>
+                    <option value="parkour_warrior">Parkour Warrior</option>
+                    <option value="battle_box">Battle Box</option>
+                </select>
+            </label>
+
+            <label>
+                History
+                <select id="progress-history">
+                    <option value="all">All Events</option>
+                    <option value="1">Last 1</option>
+                    <option value="2">Last 2</option>
+                    <option value="3">Last 3</option>
+                    <option value="5">Last 5</option>
+                    <option value="season1">Season 1</option>
+                    <option value="season2">Season 2</option>
+                </select>
+            </label>
+
+        </div>
+
+        <div
+            id="player-progression-chart"
+            class="player-progression-chart"
+            role="img"
+            aria-label="Player progression over events"
+        ></div>
+    </div>
+</section>
+
+
+                <!-- GAME STATISTICS -->
+                <section class="player-section">
+                    <h2>Game Statistics</h2>
+
+                    <!-- ALL GAMES VIEW -->
+                    <div id="player-all-games-view">
+
+                        <div class="player-radar-settings">
+                            <label for="player-radar-history">
+                                Previous events
+                            </label>
+
+                            <select id="player-radar-history">
+                                <option value="1">Last 1</option>
+                                <option value="2">Last 2</option>
+                                <option value="3">Last 3</option>
+                                <option value="5">Last 5</option>
+                                <option value="season1">Season 1</option>
+                                <option value="season2">Season 2</option>
+                                <option value="all" selected>All Events</option>
+                            </select>
+                        </div>
+
+                        <div class="player-radar-container">
+                            <canvas
+                                id="player-game-radar"
+                                aria-label="Player game performance radar chart"
+                                role="img"
+                            ></canvas>
+                        </div>
+
+                    </div>
+
+                    <!-- GAME SELECTOR -->
+                    <div class="player-game-selector">
+                        <img
+                            src="assets/stats/all.webp"
+                            alt=""
+                            class="player-selected-game-icon"
+                            id="player-selected-game-icon"
+                        >
+
+                        <select id="player-game-filter" aria-label="Select game">
+                            <option value="all">All Games</option>
+                            <option value="sky_battle">Sky Battle</option>
+                            <option value="rocket_spleef_rush">Rocket Spleef Rush</option>
+                            <option value="tgttos">TGTTOS</option>
+                            <option value="hole_in_the_wall">Hole in the Wall</option>
+                            <option value="parkour_warrior">Parkour Warrior</option>
+                            <option value="battle_box">Battle Box</option>
+                        </select>
+                    </div>
+
+                    <!-- ALL GAMES TABLE -->
+                    <div id="player-all-games-table" class="player-table-wrapper">
+                        <table class="player-game-table">
+                            <thead>
+                                <tr>
+                                    <th>Game</th>
+                                    <th>Avg Coins</th>
+                                    <th>Avg Rank</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="player-games-body"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- SELECTED GAME VIEW -->
+                    <div id="player-selected-game-view" hidden>
+
+                        <div class="player-stat-group player-game-detail-stats">
+
+                            <div class="player-stat-card">
+                                <div class="player-stat-info">
+                                    <span
+                                        id="player-game-coin-label"
+                                        class="player-stat-label"
+                                    >
+                                        Game Coin Average
+                                    </span>
+                                    <strong id="player-game-coin-average">—</strong>
+                                </div>
+                                <span class="player-stat-icon" aria-hidden="true">
+                                    <img src="assets/stats/coin.webp" alt="">
+                                </span>
+                            </div>
+
+                            <div class="player-stat-card">
+                                <div class="player-stat-info">
+                                    <span
+                                        id="player-game-rank-label"
+                                        class="player-stat-label"
+                                    >
+                                        Game Rank Average
+                                    </span>
+                                    <strong id="player-game-rank-average">—</strong>
+                                </div>
+                                <span class="player-stat-icon" aria-hidden="true">
+                                    <img src="assets/stats/rank.webp" alt="">
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="player-table-wrapper">
+                            <table class="player-game-table">
+                                <thead>
+                                    <tr>
+                                        <th>MCCC</th>
+                                        <th>Coins</th>
+                                        <th>Rank</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="player-game-history-body"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/player.js"></script>
+
+</body>
+</html>

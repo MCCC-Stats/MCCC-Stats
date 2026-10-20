@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="logo.png?v=2">
+  <title>Records | MCCC Stats</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/records.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="navbar">
+    <div class="navbar-start">
+        <img src="logo.png" alt="MCCC Logo"
+     style="width:32px;height:32px;object-fit:contain;vertical-align:middle;margin-right:10px;">
+      <a href="index.html" class="navbar-brand">MCCC Stats</a>
+    </div>
+
+    <div class="navbar-search">
+      <label class="sr-only" for="navbar-player-search">
+        Search for a player
+      </label>
+      <input
+        type="search"
+        id="navbar-player-search"
+        class="navbar-search-input"
+        placeholder="Search player..."
+        autocomplete="off"
+      >
+      <div
+        id="navbar-search-results"
+        class="navbar-search-results"
+        hidden
+      ></div>
+    </div>
+
+    <div class="navbar-end">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="events.html">Events</a>
+      <a class="nav-link" href="players.html">Players</a>
+      <a class="nav-link" href="compare.html">Compare</a>
+      <a
+        class="nav-link active"
+        href="records.html"
+        aria-current="page"
+      >Records</a>
+    </div>
+  </nav>
+</header>
+
+<main class="records-page">
+  <div class="records-heading">
+    <h1>MCCC Records</h1>
+    <p>
+      The greatest performances, achievements and milestones
+      in MCCC history.
+    </p>
+  </div>
+
+  <section class="records-filters" aria-label="Record settings">
+    <div class="records-filters-title">
+      <h2>Record Settings</h2>
+      <p>Choose which events contribute to the records.</p>
+    </div>
+
+    <div class="records-filter-controls">
+      <label class="records-filter-field" for="records-season">
+        <span>Season</span>
+        <select id="records-season">
+          <option value="all">All Seasons</option>
+          <option value="1">Season 1</option>
+          <option value="2">Season 2</option>
+        </select>
+      </label>
+
+      <label class="records-filter-field" for="records-team-count">
+        <span>Team Count</span>
+        <select id="records-team-count">
+          <option value="all">All Team Counts</option>
+          <option value="4">4 Teams</option>
+          <option value="5">5 Teams</option>
+          <option value="6">6 Teams</option>
+        </select>
+      </label>
+
+      <label class="records-filter-check" for="records-noncanon">
+        <input type="checkbox" id="records-noncanon">
+        <span>Include Non-Canon Events</span>
+      </label>
+    </div>
+  </section>
+
+  <p
+    id="records-status"
+    class="records-status"
+    aria-live="polite"
+  ></p>
+
+  <div id="records-content" hidden>
+    <section class="records-section">
+      <div class="records-section-heading">
+        <h2>Hall of Fame</h2>
+        <p>The standout records in MCCC history.</p>
+      </div>
+      <div id="records-highlights" class="records-highlights"></div>
+    </section>
+
+    <section class="records-section">
+      <div class="records-section-heading">
+        <h2>Individual Records</h2>
+        <p>Individual performances and career scoring achievements.</p>
+      </div>
+      <div id="records-individual" class="records-panel"></div>
+    </section>
+
+    <section class="records-section">
+      <div class="records-section-heading">
+        <h2>Team Records</h2>
+        <p>Multiplied and unmultiplied team scoring records.</p>
+      </div>
+      <div id="records-teams" class="records-panel"></div>
+    </section>
+
+    <section class="records-section">
+      <div class="records-section-heading">
+        <h2>Game Records</h2>
+        <p>Expand a game to explore individual and team scoring records.</p>
+      </div>
+      <div id="records-games" class="records-game-list"></div>
+    </section>
+
+    <section class="records-section">
+      <div class="records-section-heading">
+        <h2>Career Milestones</h2>
+        <p>
+          Career achievements and streaks across consecutive appearances.
+        </p>
+      </div>
+      <div id="records-milestones" class="records-panel"></div>
+    </section>
+  </div>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/records.js"></script>
+</body>
+</html>
