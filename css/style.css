@@ -4375,6 +4375,30 @@ html[data-theme="light"] .projection-bar-track {
 
 
 
+/* Prevent Dodgebolts icon overlapping text on mobile */
+
+@media (max-width: 768px) {
+    .player-participation .player-stat-card {
+        padding: 17px 10px;
+        gap: 4px;
+    }
+
+    .player-participation .player-stat-label {
+        font-size: 12px;
+    }
+
+    .player-participation .player-stat-icon {
+        font-size: 22px;
+        flex-shrink: 0;
+    }
+
+    .player-participation .player-stat-icon img {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+    }
+}
+
 
 
 /* ==========================================
