@@ -4279,6 +4279,102 @@ html[data-theme="light"] .projection-bar-track {
 }
 
 
+/* ==========================================
+   MOBILE NAVBAR FIX
+   ========================================== */
+
+@media (max-width: 768px) {
+    .site-header .navbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        position: relative;
+    }
+
+    .site-header .navbar-start {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        gap: 8px;
+    }
+
+    .site-header .navbar-start img {
+        flex-shrink: 0;
+        width: 32px !important;
+        height: 32px !important;
+        margin-right: 0 !important;
+    }
+
+    .site-header .navbar-brand {
+        white-space: nowrap;
+        font-size: 17px;
+    }
+
+    .site-header .navbar-search {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+        margin: 0;
+    }
+
+    .site-header .navbar-search-input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .site-header .navbar-end {
+        display: none;
+        grid-column: 1 / -1;
+        grid-row: 3;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 4px;
+        margin: 0;
+        padding: 8px 0 0;
+    }
+
+    .site-header .navbar-end.is-open {
+        display: flex;
+    }
+
+    .site-header .navbar-end .nav-link {
+        display: block;
+        padding: 12px;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: left;
+    }
+
+    .mobile-nav-toggle {
+        display: flex;
+        grid-column: 2;
+        grid-row: 1;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: transparent;
+        border: 1px solid #444;
+        border-radius: 8px;
+        color: white;
+        font-size: 23px;
+        cursor: pointer;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-nav-toggle {
+        display: none;
+    }
+}
+
+
+
 
 
 /* ==========================================

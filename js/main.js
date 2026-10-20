@@ -408,3 +408,42 @@ function setupNextEventTeams() {
         grid.appendChild(card);
     });
 }
+
+
+/* Mobile navigation */
+
+document.addEventListener("DOMContentLoaded", () => {
+    const navbar = document.querySelector(".site-header .navbar");
+    const navLinks = navbar?.querySelector(".navbar-end");
+
+    if (!navbar || !navLinks || navbar.querySelector(".mobile-nav-toggle")) {
+        return;
+    }
+
+    const toggle = document.createElement("button");
+
+    toggle.type = "button";
+    toggle.className = "mobile-nav-toggle";
+    toggle.textContent = "☰";
+    toggle.setAttribute("aria-label", "Toggle navigation");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-controls", "mobile-nav-links");
+
+    navLinks.id = "mobile-nav-links";
+    navbar.appendChild(toggle);
+
+    toggle.addEventListener("click", () => {
+        const isOpen = navLinks.classList.toggle("is-open");
+
+        toggle.setAttribute("aria-expanded", String(isOpen));
+        toggle.textContent = isOpen ? "✕" : "☰";
+    });
+
+    navLinks.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+            navLinks.classList.remove("is-open");
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.textContent = "☰";
+        });
+    });
+});
