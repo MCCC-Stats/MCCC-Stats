@@ -101,9 +101,35 @@ document.addEventListener("DOMContentLoaded", () => {
     const query = normalizeName($("players-search").value);
     const players = new Map();
 
-    events.filter(event => (includeNoncanon || isCanon(event)) &&
-      (season === "all" || getSeason(event) === Number(season)))
-      .forEach(event => {
+    
+    
+    // Select eligible events.
+    let selectedEvents = events.filter(event =>
+      includeNoncanon || isCanon(event)
+    );
+
+    // Season filters still work as normal.
+    if (season === "1" || season === "2") {
+      selectedEvents = selectedEvents.filter(event =>
+        getSeason(event) === Number(season)
+      );
+    }
+
+    // Process newest events first so each player's
+    // most recent appearances are counted first.
+    selectedEvents = [...selectedEvents].sort(
+      (a, b) => Number(b.id) - Number(a.id)
+    );
+
+    // Last 1, 2, 3 or 5 means each player's last
+    // X appearances, not the last X overall events.
+    const lastCount = season.startsWith("last")
+      ? Number(season.replace("last", ""))
+      : Infinity;
+
+    selectedEvents.forEach(event => {
+
+
         getEventPlayers(event).forEach(name => {
           if (!includeIncomplete && !playedFullEvent(event, name)) return;
           const score = getPlayerTotal(event, name, mode);
@@ -111,6 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const key = normalizeName(name);
           if (!players.has(key)) players.set(key, { name, scores: [], bestEvents: [], placements: [] });
           const player = players.get(key);
+          if (player.scores.length >= lastCount) return;
           player.scores.push(score);
           player.bestEvents.push({ event: event.name || `MCCC ${event.id}`, score });
           const rank = eventRanks.get(event)?.get(key);
@@ -145,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function createPlayerHead(name) {
     const image = document.createElement("img");
     const username = normalizeName(name);
-    const large = ["creep1et", "sacred_bean", "wailed_burrito61", "froopyloopidy", "fennecfox1247"].includes(username);
+    const large = ["creep1et", "sacred_bean", "wailed_burrito61", "froopyloopidy", "fennecfox1247", "voidvvy"].includes(username);
     image.src = `https://mc-heads.net/avatar/${encodeURIComponent(username)}/${large ? 64 : 32}`;
     image.alt = "";
     image.loading = "lazy";

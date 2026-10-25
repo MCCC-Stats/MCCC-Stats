@@ -1934,7 +1934,8 @@ const largeHeads = [
   "wailed_burrito61",
   "froopyloopidy",
   "awsomeants",
-  "fennecfox1247"
+  "fennecfox1247",
+  "voidvvy"
 ];
 
 const size = largeHeads.includes(skinUsername) ? 64 : 32;

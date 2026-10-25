@@ -206,7 +206,8 @@ const size = [
     "creep1et",
     "wailed_burrito61",
     "froopyloopidy",
-    "fennecfox1247"
+    "fennecfox1247",
+    "voidvvy"
 ].includes(username) ? 64 : 32;
 
 avatar.src = `https://mc-heads.net/avatar/${encodeURIComponent(username)}/${size}`;
@@ -333,7 +334,8 @@ function setupNextEventTeams() {
         "creep1et",
         "wailed_burrito61",
         "froopyloopidy",
-        "fennecfox1247"
+        "fennecfox1247",
+        "voidvvy"
     ];
 
     projection.teams.forEach(team => {

@@ -49,6 +49,7 @@
       <a href="players.html" class="nav-link active">Players</a>
       <a href="compare.html" class="nav-link">Compare</a>
       <a class="nav-link" href="records.html">Records</a>
+      <a href="teambuilder.html" class="nav-link">Team Builder</a>
     </div>
 
   </nav>
@@ -80,13 +81,19 @@
           <label class="players-search">Search Players
             <input id="players-search" type="search" placeholder="Search by username..." autocomplete="off">
           </label>
-          <label>Events
-            <select id="players-season">
-              <option value="all" selected>All Events</option>
-              <option value="1">Season 1</option>
-              <option value="2">Season 2</option>
-            </select>
-          </label>
+          
+<label>Events
+  <select id="players-season">
+    <option value="last1">Last 1</option>
+    <option value="last2">Last 2</option>
+    <option value="last3">Last 3</option>
+    <option value="last5">Last 5</option>
+    <option value="1">Season 1</option>
+    <option value="2">Season 2</option>
+    <option value="all" selected>All Events</option>
+  </select>
+</label>
+
           <label>Sort By
             <select id="players-sort">
               <option value="average">Average Coins</option>

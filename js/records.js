@@ -47,7 +47,8 @@
     "wailed_burrito61",
     "froopyloopidy",
     "awsomeants",
-    "fennecfox1247"
+    "fennecfox1247",
+    "voidvvy"
   ]);
 
   function playerImage(name) {

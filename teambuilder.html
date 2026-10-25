@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" type="image/png" href="logo.png?v=2">
+  <title>Team Builder | MCCC Stats</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/teambuilder.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="navbar">
+    <div class="navbar-start">
+      <img src="logo.png" alt="MCCC Logo"
+        style="width:32px;height:32px;object-fit:contain;margin-right:10px">
+      <a href="index.html" class="navbar-brand">MCCC Stats</a>
+    </div>
+
+    <div class="navbar-search">
+      <label for="navbar-player-search" class="sr-only">Search for a player</label>
+      <input type="search" id="navbar-player-search"
+        class="navbar-search-input" placeholder="Search player..." autocomplete="off">
+      <div id="navbar-search-results" class="navbar-search-results" hidden></div>
+    </div>
+
+    <div class="navbar-end">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="events.html" class="nav-link">Events</a>
+      <a href="players.html" class="nav-link">Players</a>
+      <a href="compare.html" class="nav-link">Compare</a>
+      <a href="records.html" class="nav-link">Records</a>
+      <a href="teambuilder.html" class="nav-link active">Team Builder</a>
+    </div>
+  </nav>
+</header>
+
+<main class="tb-page">
+  <h1>Team Builder</h1>
+  <p class="tb-muted">
+    Build your roster, balance teams automatically,
+    or move players around yourself.
+  </p>
+
+  <section class="tb-panel tb-settings">
+    <div>
+      <label for="tb-count">Number of teams</label>
+      <select id="tb-count">
+        <option value="4">4 teams</option>
+        <option value="5" selected>5 teams</option>
+        <option value="6">6 teams</option>
+        <option value="8">8 teams</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="tb-size">Players per team</label>
+      <select id="tb-size">
+        <option value="2">2 players</option>
+        <option value="3">3 players</option>
+        <option value="4" selected>4 players</option>
+        <option value="5">5 players</option>
+        <option value="6">6 players</option>
+        <option value="7">7 players</option>
+        <option value="8">8 players</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="tb-range">Player averages</label>
+      <select id="tb-range">
+        <option value="1">Last 1</option>
+        <option value="2">Last 2</option>
+        <option value="3" selected>Last 3</option>
+        <option value="5">Last 5</option>
+        <option value="s1">Season 1</option>
+        <option value="s2">Season 2</option>
+        <option value="all">All Events</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="tb-score">Scores</label>
+      <select id="tb-score">
+        <option value="normalized" selected>Normalised</option>
+        <option value="raw">Raw</option>
+      </select>
+    </div>
+
+    <label class="tb-check">
+      <input id="tb-noncanon" type="checkbox">
+      Include non-canon
+    </label>
+
+    <label class="tb-check">
+      <input id="tb-incomplete" type="checkbox">
+      Include incomplete performances
+    </label>
+  </section>
+
+  <div class="tb-toolbar">
+    <button id="tb-balance">Auto Balance</button>
+    <button id="tb-clear">Clear Teams</button>
+    <button id="tb-save">Save in Browser</button>
+    <button id="tb-export">Copy Teams</button>
+    <button id="tb-reset">Reset All</button>
+    <span id="tb-message" role="status" aria-live="polite"></span>
+  </div>
+
+  <div class="tb-workspace">
+    <aside class="tb-panel tb-pool">
+      <h2>
+        Player Pool
+        <span id="tb-roster-count"></span>
+      </h2>
+
+      <label for="tb-search">Search players</label>
+      <input id="tb-search" type="search" placeholder="Search by username...">
+      <div id="tb-search-results" class="tb-search-results"></div>
+
+      <div class="tb-guest">
+        <label for="tb-guest-name">Add newcomer</label>
+        <div class="tb-inline">
+          <input id="tb-guest-name" placeholder="Minecraft username" maxlength="32">
+          <button id="tb-add-guest">Add</button>
+        </div>
+
+        <label for="tb-guest-score">Estimated average (optional)</label>
+        <input id="tb-guest-score" type="number" min="0" step="0.5" placeholder="0">
+      </div>
+
+      <h3>Selected roster</h3>
+      <p class="tb-muted tb-small">
+        Drag players into teams or back into the pool.
+        Remove a player to return them to search.
+      </p>
+      <div id="tb-pool-list" class="tb-dropzone"></div>
+    </aside>
+
+    <section class="tb-teams">
+      <div class="tb-summary tb-panel">
+        <div>
+          <strong id="tb-filled">0 / 20</strong>
+          <span>Team slots filled</span>
+        </div>
+        <div>
+          <strong id="tb-spread">—</strong>
+          <span>Strongest − weakest</span>
+        </div>
+        <div>
+          <strong id="tb-average">—</strong>
+          <span>Target team average</span>
+        </div>
+      </div>
+
+      <div id="tb-team-grid" class="tb-team-grid"></div>
+    </section>
+  </div>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/teambuilder.js"></script>
+</body>
+</html>
