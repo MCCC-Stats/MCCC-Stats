@@ -19,10 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: 'Pink', hex: '#ef82ba', icon: 'pink' }
   ];
 
-  const defaults = [
-    'Red', 'Orange', 'Yellow', 'Lime',
-    'Aqua', 'Blue', 'Purple', 'Pink'
-  ];
+  
+const defaults = [
+  'Red', 'Orange', 'Yellow', 'Lime',
+  'Aqua', 'Blue', 'Purple', 'Pink'
+];
+
 
   const normalize = s => String(s).trim().toLowerCase();
   const fmt = n => Math.round(n).toLocaleString('en-IE');
@@ -757,9 +759,11 @@ s.append(' ', coinIcon);
     );
 
     if (saved?.teams && Array.isArray(saved.roster)) {
-      const count = [4, 5, 6, 8].includes(saved.teams.length)
-        ? saved.teams.length
-        : 5;
+      
+const count = [4, 5, 6, 7, 8].includes(saved.teams.length)
+  ? saved.teams.length
+  : 5;
+
 
       const size = [2, 3, 4, 5, 6, 7, 8].includes(
         Number(saved.settings?.size)
