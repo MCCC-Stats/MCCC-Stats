@@ -19,21 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: 'Pink', hex: '#ef82ba', icon: 'pink' }
   ];
 
-  
-const defaults = [
-  'Red', 'Orange', 'Yellow', 'Lime',
-  'Aqua', 'Blue', 'Purple', 'Pink'
-];
-
-
-  const normalize = s => String(s).trim().toLowerCase();
-  const fmt = n => Math.round(n).toLocaleString('en-IE');
-  const isCanon = e => e.noncanon !== true && e.canon !== false;
-  const gameId = g => typeof g === 'string' ? g : g.id;
-  const state = { teams: [], roster: [], guests: {} };
-
-  const teamSize = () => Number($('tb-size').value);
-  const capacity = () => state.teams.length * teamSize();
+  const defaults = [
+    'Red', 'Orange', 'Yellow', 'Lime',
+    'Aqua', 'Blue', 'Purple', 'Pink'
+  ];
 
   const specialHeads = [
     'creep1et',
@@ -43,76 +32,100 @@ const defaults = [
     'sacred_bean'
   ];
 
-  const avatar = name =>
-    `https://mc-heads.net/avatar/${encodeURIComponent(normalize(name))}/` +
-    (specialHeads.includes(normalize(name)) ? 64 : 32);
+  const normalize = s => String(s).trim().toLowerCase();
+  const fmt = n => Math.round(n).toLocaleString('en-IE');
+  const isCanon = e => e.noncanon !== true && e.canon !== false;
+  const gameId = g => typeof g === 'string' ? g : g.id;
 
-  const full = (e, name) => {
-    const p = Object.entries(e.participation || {})
+  const state = {
+    teams: [],
+    roster: [],
+    guests: {},
+    currentSize: 4
+  };
+
+  const teamSize = () => Number($('tb-size').value);
+  const capacity = () => state.teams.length * teamSize();
+
+  const avatar = name => {
+    const key = normalize(name);
+    const size = specialHeads.includes(key) ? 64 : 32;
+    return `https://mc-heads.net/avatar/${encodeURIComponent(key)}/${size}`;
+  };
+
+  function notify(message) {
+    $('tb-message').textContent = message;
+  }
+
+  function full(event, name) {
+    const participation = Object.entries(event.participation || {})
       .find(([n]) => normalize(n) === normalize(name))?.[1];
 
-    return !p || (
-      p.length === (e.games || []).length &&
-      p.every(Boolean)
+    return !participation || (
+      participation.length === (event.games || []).length &&
+      participation.every(Boolean)
     );
-  };
+  }
 
-  const getScores = (e, name) => {
-    const key = Object.keys(e.scores || {})
+  function getScores(event, name) {
+    const key = Object.keys(event.scores || {})
       .find(n => normalize(n) === normalize(name));
 
-    return key ? e.scores[key] : null;
-  };
+    return key ? event.scores[key] : null;
+  }
 
   const known = new Map();
 
-  events.forEach(e =>
-    (e.teams || []).forEach(t =>
-      (t.players || []).forEach(n =>
-        known.set(normalize(n), n)
-      )
-    )
-  );
+  events.forEach(event => {
+    (event.teams || []).forEach(team => {
+      (team.players || []).forEach(name => {
+        known.set(normalize(name), name);
+      });
+    });
+  });
 
-  // Build normalisation factors from historical events.
+  // Historical score normalisation.
   const baseline = new Map();
   const factors = new Map();
 
   events
-    .filter(e =>
-      isCanon(e) &&
-      Array.isArray(e.teams) &&
-      Array.isArray(e.games)
+    .filter(event =>
+      isCanon(event) &&
+      Array.isArray(event.teams) &&
+      Array.isArray(event.games)
     )
-    .forEach(e => e.games.forEach((g, i) => {
-      const key = `${e.teams.length}:${gameId(g)}`;
+    .forEach(event => {
+      event.games.forEach((game, index) => {
+        const key = `${event.teams.length}:${gameId(game)}`;
 
-      if (!baseline.has(key)) {
-        baseline.set(key, { sum: 0, count: 0 });
-      }
+        if (!baseline.has(key)) {
+          baseline.set(key, { sum: 0, count: 0 });
+        }
 
-      Object.entries(e.scores || {}).forEach(([n, s]) => {
-        if (!full(e, n) || !Number.isFinite(s?.[i])) return;
+        Object.entries(event.scores || {}).forEach(([name, scores]) => {
+          if (!full(event, name)) return;
+          if (!Number.isFinite(scores?.[index])) return;
 
-        const entry = baseline.get(key);
-        entry.sum += s[i];
-        entry.count++;
+          const entry = baseline.get(key);
+          entry.sum += scores[index];
+          entry.count++;
+        });
       });
-    }));
+    });
 
-  games.forEach(g => {
-    const ref = baseline.get(`5:${g.id}`);
+  games.forEach(game => {
+    const ref = baseline.get(`5:${game.id}`);
     if (!ref?.count) return;
 
-    [4, 5, 6, 8].forEach(count => {
-      const b = baseline.get(`${count}:${g.id}`);
+    [4, 5, 6, 7, 8].forEach(count => {
+      const other = baseline.get(`${count}:${game.id}`);
 
-      if (b?.count && b.sum > 0) {
+      if (other?.count && other.sum > 0) {
         factors.set(
-          `${count}:${g.id}`,
-          g.id === 'hole_in_the_wall'
+          `${count}:${game.id}`,
+          game.id === 'hole_in_the_wall'
             ? 1
-            : (ref.sum / ref.count) / (b.sum / b.count)
+            : (ref.sum / ref.count) / (other.sum / other.count)
         );
       }
     });
@@ -125,39 +138,36 @@ const defaults = [
       return Number(state.guests[key]) || 0;
     }
 
-    const count = $('tb-range').value;
+    const range = $('tb-range').value;
     const mode = $('tb-score').value;
 
     const eligible = [...events]
-      .filter(e =>
-        ($('tb-noncanon').checked || isCanon(e)) &&
+      .filter(event =>
+        ($('tb-noncanon').checked || isCanon(event)) &&
         (
-          (count !== 's1' && count !== 's2') ||
+          (range !== 's1' && range !== 's2') ||
           Number(
-            e.season ?? (Number(e.id) <= 10 ? 1 : 2)
-          ) === Number(count.slice(1))
+            event.season ??
+            (Number(event.id) <= 10 ? 1 : 2)
+          ) === Number(range.slice(1))
         )
       )
       .sort((a, b) => Number(b.id) - Number(a.id));
 
     const values = [];
 
-    for (const e of eligible) {
-      if (!$('tb-incomplete').checked && !full(e, name)) {
+    for (const event of eligible) {
+      if (!$('tb-incomplete').checked && !full(event, name)) {
         continue;
       }
 
-      const scores = getScores(e, name);
+      const scores = getScores(event, name);
       if (!Array.isArray(scores)) continue;
 
-      const total = (e.games || []).reduce((sum, g, i) => {
+      const total = (event.games || []).reduce((sum, game, i) => {
         const factor =
-          mode === 'normalized' && e.teams?.length !== 5
-            ? (
-                factors.get(
-                  `${e.teams?.length}:${gameId(g)}`
-                ) ?? 1
-              )
+          mode === 'normalized' && event.teams?.length !== 5
+            ? factors.get(`${event.teams?.length}:${gameId(game)}`) ?? 1
             : 1;
 
         return sum + (Number(scores[i]) || 0) * factor;
@@ -166,8 +176,8 @@ const defaults = [
       values.push(total);
 
       if (
-        /^\d+$/.test(count) &&
-        values.length >= Number(count)
+        /^\d+$/.test(range) &&
+        values.length >= Number(range)
       ) {
         break;
       }
@@ -180,9 +190,7 @@ const defaults = [
 
   function initTeams(count) {
     state.teams = Array.from({ length: count }, (_, i) => {
-      const colour = teamColours.find(
-        c => c.name === defaults[i]
-      );
+      const colour = teamColours.find(c => c.name === defaults[i]);
 
       return {
         name: `${defaults[i]} Team`,
@@ -192,51 +200,89 @@ const defaults = [
     });
   }
 
-  function findTeam(name) {
-    return state.teams.findIndex(t =>
-      t.players.some(n => normalize(n) === normalize(name))
-    );
-  }
-
   function inRoster(name) {
-    return state.roster.some(n =>
-      normalize(n) === normalize(name)
+    return state.roster.some(n => normalize(n) === normalize(name));
+  }
+
+  function findTeam(name) {
+    return state.teams.findIndex(team =>
+      team.players.some(n => normalize(n) === normalize(name))
     );
   }
 
-  function notify(msg) {
-    $('tb-message').textContent = msg;
+  function findPosition(name) {
+    const teamIndex = findTeam(name);
+
+    if (teamIndex < 0) {
+      return { teamIndex: -1, playerIndex: -1 };
+    }
+
+    const playerIndex = state.teams[teamIndex].players
+      .findIndex(n => normalize(n) === normalize(name));
+
+    return { teamIndex, playerIndex };
   }
 
   function move(name, target) {
     if (!inRoster(name)) return;
 
     const destination = Number(target);
+    const current = findTeam(name);
 
-    if (
-      destination >= 0 &&
-      (
-        !state.teams[destination] ||
-        (
-          state.teams[destination].players.length >= teamSize() &&
-          findTeam(name) !== destination
-        )
-      )
-    ) {
-      notify(`That team already has ${teamSize()} players.`);
-      return;
+    if (destination === current) return;
+
+    if (destination >= 0) {
+      const team = state.teams[destination];
+
+      if (!team || team.players.length >= teamSize()) {
+        notify('That team is full. Drag onto a player to swap.');
+        return;
+      }
     }
 
-    state.teams.forEach(t => {
-      t.players = t.players.filter(
-        n => normalize(n) !== normalize(name)
-      );
-    });
+    if (current >= 0) {
+      state.teams[current].players = state.teams[current].players
+        .filter(n => normalize(n) !== normalize(name));
+    }
 
     if (destination >= 0) {
       state.teams[destination].players.push(name);
     }
 
+    render();
+  }
+
+  // Swap exact positions, even between different teams.
+  function swapPlayers(first, second) {
+    if (!inRoster(first) || !inRoster(second)) return;
+    if (normalize(first) === normalize(second)) return;
+
+    const a = findPosition(first);
+    const b = findPosition(second);
+
+    if (a.teamIndex < 0 && b.teamIndex < 0) return;
+
+    if (a.teamIndex < 0 || b.teamIndex < 0) {
+      // A pool player replaces an assigned player.
+      const assigned = a.teamIndex >= 0 ? a : b;
+      const incoming = a.teamIndex < 0 ? first : second;
+
+      state.teams[assigned.teamIndex]
+        .players[assigned.playerIndex] = incoming;
+    } else {
+      const teamA = state.teams[a.teamIndex];
+      const teamB = state.teams[b.teamIndex];
+
+      [
+        teamA.players[a.playerIndex],
+        teamB.players[b.playerIndex]
+      ] = [
+        teamB.players[b.playerIndex],
+        teamA.players[a.playerIndex]
+      ];
+    }
+
+    notify(`${first} and ${second} swapped.`);
     render();
   }
 
@@ -258,10 +304,7 @@ const defaults = [
 
     if (guest) {
       if (known.has(key)) {
-        notify(
-          'This player is already in the event database. ' +
-          'Search for them instead.'
-        );
+        notify('This player is in the database. Search for them instead.');
         return;
       }
 
@@ -283,8 +326,8 @@ const defaults = [
       n => normalize(n) !== normalize(name)
     );
 
-    state.teams.forEach(t => {
-      t.players = t.players.filter(
+    state.teams.forEach(team => {
+      team.players = team.players.filter(
         n => normalize(n) !== normalize(name)
       );
     });
@@ -293,47 +336,76 @@ const defaults = [
     render();
   }
 
+  function coinScore(name) {
+    const coins = document.createElement('span');
+    coins.className = 'tb-person-score';
+    coins.textContent = fmt(score(name));
+
+    const icon = document.createElement('img');
+    icon.src = 'assets/stats/coin.webp';
+    icon.alt = '';
+    icon.className = 'tb-coin-icon';
+
+    coins.append(' ', icon);
+    return coins;
+  }
+
+  function playerFace(name) {
+    const img = document.createElement('img');
+    img.src = avatar(name);
+    img.alt = '';
+    img.loading = 'lazy';
+
+    img.onerror = () => {
+      img.style.visibility = 'hidden';
+    };
+
+    return img;
+  }
+
   function person(name, assigned = false) {
     const el = document.createElement('div');
     el.className = 'tb-person';
     el.draggable = true;
 
-    el.addEventListener('dragstart', e => {
-      e.dataTransfer.setData('text/plain', name);
-      e.dataTransfer.effectAllowed = 'move';
+    el.addEventListener('dragstart', event => {
+      event.dataTransfer.setData('text/plain', name);
+      event.dataTransfer.effectAllowed = 'move';
     });
 
-    const img = document.createElement('img');
-    img.src = avatar(name);
-    img.alt = '';
-    img.loading = 'lazy';
-    img.onerror = () => {
-      img.style.visibility = 'hidden';
-    };
+    el.addEventListener('dragover', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      event.dataTransfer.dropEffect = 'move';
+      el.classList.add('tb-over');
+    });
+
+    el.addEventListener('dragleave', event => {
+      if (!el.contains(event.relatedTarget)) {
+        el.classList.remove('tb-over');
+      }
+    });
+
+    el.addEventListener('drop', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      el.classList.remove('tb-over');
+
+      const dragged = event.dataTransfer.getData('text/plain');
+      if (dragged) swapPlayers(dragged, name);
+    });
 
     const label = document.createElement('span');
     label.className = 'tb-person-name';
     label.textContent = name;
 
-    
-const coins = document.createElement('span');
-coins.className = 'tb-person-score';
-coins.textContent = fmt(score(name));
-
-const coinIcon = document.createElement('img');
-coinIcon.src = 'assets/stats/coin.webp';
-coinIcon.alt = '';
-coinIcon.className = 'tb-coin-icon';
-
-coins.append(' ', coinIcon);
-
-el.append(img, label, coins);
-
+    el.append(playerFace(name), label, coinScore(name));
 
     if (!assigned) {
       const remove = document.createElement('button');
       remove.textContent = '×';
       remove.title = `Remove ${name} from roster`;
+
       remove.addEventListener('click', () => removePlayer(name));
       el.append(remove);
     }
@@ -342,39 +414,86 @@ el.append(img, label, coins);
   }
 
   function dropzone(el, index) {
-    el.addEventListener('dragover', e => {
-      e.preventDefault();
+    el.addEventListener('dragover', event => {
+      event.preventDefault();
       el.classList.add('tb-over');
     });
 
-    el.addEventListener('dragleave', () => {
-      el.classList.remove('tb-over');
+    el.addEventListener('dragleave', event => {
+      if (!el.contains(event.relatedTarget)) {
+        el.classList.remove('tb-over');
+      }
     });
 
-    el.addEventListener('drop', e => {
-      e.preventDefault();
+    el.addEventListener('drop', event => {
+      event.preventDefault();
       el.classList.remove('tb-over');
 
-      const name = e.dataTransfer.getData('text/plain');
+      const name = event.dataTransfer.getData('text/plain');
       if (name) move(name, index);
     });
   }
 
   dropzone($('tb-pool-list'), -1);
 
-  function render() {
-    const rosterCount = state.roster.length;
-    const cap = capacity();
+  // Scroll the page when dragging near the top or bottom.
+  let dragScrollDirection = 0;
+  let dragScrollFrame = null;
 
-    $('tb-roster-count').textContent = `${rosterCount} / ${cap}`;
+  function autoScrollStep() {
+    if (dragScrollDirection === 0) {
+      dragScrollFrame = null;
+      return;
+    }
+
+    window.scrollBy(0, dragScrollDirection * 12);
+    dragScrollFrame = requestAnimationFrame(autoScrollStep);
+  }
+
+  document.addEventListener('dragover', event => {
+    const edge = 110;
+    let direction = 0;
+
+    if (event.clientY < edge) {
+      direction = -1;
+    } else if (event.clientY > window.innerHeight - edge) {
+      direction = 1;
+    }
+
+    dragScrollDirection = direction;
+
+    if (direction && dragScrollFrame === null) {
+      dragScrollFrame = requestAnimationFrame(autoScrollStep);
+    }
+  });
+
+  function stopDragScroll() {
+    dragScrollDirection = 0;
+
+    if (dragScrollFrame !== null) {
+      cancelAnimationFrame(dragScrollFrame);
+      dragScrollFrame = null;
+    }
+  }
+
+  document.addEventListener('drop', stopDragScroll);
+  document.addEventListener('dragend', stopDragScroll);
+
+  // Keep search open while focused.
+  let searchOpen = false;
+
+  function render() {
+    const cap = capacity();
+    $('tb-roster-count').textContent =
+      `${state.roster.length} / ${cap}`;
 
     const pool = $('tb-pool-list');
     pool.replaceChildren();
 
     state.roster
-      .filter(n => findTeam(n) < 0)
+      .filter(name => findTeam(name) < 0)
       .sort((a, b) => score(b) - score(a))
-      .forEach(n => pool.append(person(n)));
+      .forEach(name => pool.append(person(name)));
 
     const grid = $('tb-team-grid');
     grid.replaceChildren();
@@ -382,24 +501,26 @@ el.append(img, label, coins);
     const totals = [];
     let filled = 0;
 
-    state.teams.forEach((t, i) => {
+    state.teams.forEach((team, index) => {
       const card = document.createElement('article');
       card.className = 'tb-team';
-      card.style.setProperty('--team-color', t.color);
-      dropzone(card, i);
+      card.style.setProperty('--team-color', team.color);
+      dropzone(card, index);
 
       const head = document.createElement('div');
       head.className = 'tb-team-header';
 
       const logo = document.createElement('img');
 
-      const updateLogo = () => {
-        const chosen = teamColours.find(c =>
-          c.hex.toLowerCase() === t.color.toLowerCase()
-        ) || teamColours[0];
+      
+const updateLogo = () => {
+  const chosen = teamColours.find(c =>
+    c.hex.toLowerCase() === team.color.toLowerCase()
+  ) || teamColours[0];
 
-        logo.src = `assets/teams/${chosen.icon}.webp`;
-      };
+  logo.src = `assets/teams/${chosen.icon}.webp`;
+};
+
 
       updateLogo();
       logo.alt = '';
@@ -408,41 +529,65 @@ el.append(img, label, coins);
       };
 
       const name = document.createElement('input');
-      name.value = t.name;
-      name.setAttribute('aria-label', `Team ${i + 1} name`);
+      name.value = team.name;
+      name.setAttribute('aria-label', `Team ${index + 1} name`);
 
       name.addEventListener('input', () => {
-        t.name = name.value;
+        team.name = name.value;
       });
 
-      const color = document.createElement('select');
-      color.className = 'tb-colour-select';
-      color.setAttribute('aria-label', `Team ${i + 1} colour`);
+      const colour = document.createElement('select');
+      colour.className = 'tb-colour-select';
+      colour.setAttribute('aria-label', `Team ${index + 1} colour`);
 
       teamColours.forEach(c => {
         const option = document.createElement('option');
         option.value = c.hex;
         option.textContent = c.name;
-        color.append(option);
+        colour.append(option);
       });
 
-      color.value = t.color;
+      colour.value = team.color;
 
-      color.addEventListener('change', () => {
-        t.color = color.value;
-        card.style.setProperty('--team-color', t.color);
-        logo.style.display = '';
-        updateLogo();
-      });
+      
+colour.addEventListener('change', () => {
+  const oldColour = teamColours.find(c =>
+    c.hex.toLowerCase() === team.color.toLowerCase()
+  );
 
-      head.append(logo, name, color);
+  const newColour = teamColours.find(c =>
+    c.hex.toLowerCase() === colour.value.toLowerCase()
+  );
+
+  if (!newColour) return;
+
+  // Automatically rename the team when its colour changes.
+  const oldDefaultName = `${oldColour?.name || ''} Team`;
+
+  if (
+    team.name === oldDefaultName ||
+    team.name.endsWith(' Team')
+  ) {
+    team.name = `${newColour.name} Team`;
+    name.value = team.name;
+  }
+
+  team.color = newColour.hex;
+  card.style.setProperty('--team-color', team.color);
+
+  logo.style.display = '';
+  updateLogo();
+});
+
+
+      head.append(logo, name, colour);
       card.append(head);
 
       for (let slot = 0; slot < teamSize(); slot++) {
         const wrap = document.createElement('div');
         wrap.className = 'tb-team-slot';
 
-        const player = t.players[slot];
+        const player = team.players[slot];
 
         if (player) {
           wrap.append(person(player, true));
@@ -454,23 +599,24 @@ el.append(img, label, coins);
         card.append(wrap);
       }
 
-      const total = t.players.reduce(
-        (sum, n) => sum + score(n), 0
+      const total = team.players.reduce(
+        (sum, player) => sum + score(player), 0
       );
 
-      filled += t.players.length;
+      filled += team.players.length;
       totals.push(total);
 
       const foot = document.createElement('div');
       foot.className = 'tb-team-total';
 
-      const label = document.createElement('span');
-      label.textContent = `${t.players.length} / ${teamSize()} players`;
+      const countLabel = document.createElement('span');
+      countLabel.textContent =
+        `${team.players.length} / ${teamSize()} players`;
 
-      const value = document.createElement('strong');
-      value.textContent = fmt(total);
+      const totalLabel = document.createElement('strong');
+      totalLabel.textContent = fmt(total);
 
-      foot.append(label, value);
+      foot.append(countLabel, totalLabel);
       card.append(foot);
       grid.append(card);
     });
@@ -478,7 +624,7 @@ el.append(img, label, coins);
     $('tb-filled').textContent = `${filled} / ${cap}`;
 
     $('tb-spread').textContent =
-      totals.length && filled === cap
+      filled === cap && totals.length
         ? fmt(Math.max(...totals) - Math.min(...totals))
         : '—';
 
@@ -490,51 +636,50 @@ el.append(img, label, coins);
           )
         : '—';
 
-    const search = normalize($('tb-search').value);
+    renderSearch();
+  }
+
+  function renderSearch() {
     const result = $('tb-search-results');
     result.replaceChildren();
 
-    if (search) {
-      [...known.values()]
-        .filter(n =>
-          normalize(n).includes(search) && !inRoster(n)
-        )
-        .sort((a, b) => a.localeCompare(b))
-        .slice(0, 30)
-        .forEach(n => {
-          const line = document.createElement('div');
-          line.className = 'tb-person';
+    if (!searchOpen) return;
 
-          const img = document.createElement('img');
-          img.src = avatar(n);
-          img.alt = '';
-          img.loading = 'lazy';
+    const search = normalize($('tb-search').value);
 
-          const label = document.createElement('span');
-          label.className = 'tb-person-name';
-          label.textContent = n;
+    const available = [...known.values()]
+      .filter(name =>
+        normalize(name).includes(search) && !inRoster(name)
+      )
+      .sort((a, b) => a.localeCompare(b));
 
-          
-const s = document.createElement('span');
-s.className = 'tb-person-score';
-s.textContent = fmt(score(n));
+    available.forEach(name => {
+      const line = document.createElement('div');
+      line.className = 'tb-person';
 
-const coinIcon = document.createElement('img');
-coinIcon.src = 'assets/stats/coin.webp';
-coinIcon.alt = '';
-coinIcon.className = 'tb-coin-icon';
+      const label = document.createElement('span');
+      label.className = 'tb-person-name';
+      label.textContent = name;
 
-s.append(' ', coinIcon);
+      const add = document.createElement('button');
+      add.textContent = 'Add';
 
+      // Prevent search from closing before clicking Add.
+      add.addEventListener('mousedown', event => {
+        event.preventDefault();
+      });
 
-          const btn = document.createElement('button');
-          btn.textContent = 'Add';
-          btn.addEventListener('click', () => addPlayer(n));
+      add.addEventListener('click', () => addPlayer(name));
 
-          line.append(img, label, s, btn);
-          result.append(line);
-        });
-    }
+      line.append(
+        playerFace(name),
+        label,
+        coinScore(name),
+        add
+      );
+
+      result.append(line);
+    });
   }
 
   function balance() {
@@ -548,17 +693,15 @@ s.append(' ', coinIcon);
       return;
     }
 
-    const sorted = [...state.roster].sort(
-      (a, b) => score(b) - score(a)
-    );
+    const sorted = [...state.roster]
+      .sort((a, b) => score(b) - score(a));
 
-    // Assign players, then swap them to reduce team-score spread.
     const groups = state.teams.map(() => []);
     const sums = state.teams.map(() => 0);
 
     sorted.forEach(name => {
       const candidates = groups
-        .map((g, i) => i)
+        .map((group, i) => i)
         .filter(i => groups[i].length < teamSize())
         .sort((a, b) =>
           sums[a] - sums[b] ||
@@ -570,8 +713,10 @@ s.append(' ', coinIcon);
       sums[i] += score(name);
     });
 
-    const spread = () => Math.max(...sums) - Math.min(...sums);
+    const spread = () =>
+      Math.max(...sums) - Math.min(...sums);
 
+    // Improve initial assignment by swapping players.
     for (let step = 0; step < 400; step++) {
       let best = spread();
       let pair = null;
@@ -583,9 +728,9 @@ s.append(' ', coinIcon);
               const delta =
                 score(groups[b][y]) - score(groups[a][x]);
 
-              const next = sums.map((v, i) =>
-                i === a ? v + delta :
-                i === b ? v - delta : v
+              const next = sums.map((value, i) =>
+                i === a ? value + delta :
+                i === b ? value - delta : value
               );
 
               const width =
@@ -611,62 +756,77 @@ s.append(' ', coinIcon);
       sums[b] -= delta;
     }
 
-    state.teams.forEach((t, i) => {
-      t.players = groups[i];
+    state.teams.forEach((team, i) => {
+      team.players = groups[i];
     });
 
-    notify(
-      'Balanced teams generated. Drag players to make adjustments.'
-    );
+    notify('Balanced teams generated. Drag players to adjust them.');
     render();
   }
 
-  $('tb-search').addEventListener('input', render);
+  // Format changes preserve assignments where possible.
+  function changeFormat() {
+    const count = Number($('tb-count').value);
+    const size = teamSize();
+    const oldTeams = state.teams;
+
+    const overflow = [];
+
+    initTeams(count);
+
+    oldTeams.forEach((oldTeam, i) => {
+      if (i < count) {
+        state.teams[i].name = oldTeam.name;
+        state.teams[i].color = oldTeam.color;
+
+        state.teams[i].players = oldTeam.players.slice(0, size);
+        overflow.push(...oldTeam.players.slice(size));
+      } else {
+        overflow.push(...oldTeam.players);
+      }
+    });
+
+    state.currentSize = size;
+
+    notify(
+      overflow.length
+        ? `${overflow.length} player(s) returned to the pool.`
+        : 'Team format updated.'
+    );
+
+    render();
+  }
+
+  $('tb-search').addEventListener('focus', () => {
+    searchOpen = true;
+    renderSearch();
+  });
+
+  $('tb-search').addEventListener('input', () => {
+    searchOpen = true;
+    renderSearch();
+  });
+
+  // Close only when focus moves outside search and its results.
+  document.addEventListener('pointerdown', event => {
+    if (
+      !$('tb-search').contains(event.target) &&
+      !$('tb-search-results').contains(event.target)
+    ) {
+      searchOpen = false;
+      renderSearch();
+    }
+  });
 
   $('tb-add-guest').addEventListener('click', () => {
     addPlayer($('tb-guest-name').value, true);
   });
 
-  $('tb-guest-name').addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
-      addPlayer(e.target.value, true);
+  $('tb-guest-name').addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
+      addPlayer(event.target.value, true);
     }
   });
-
-  function changeFormat() {
-    const count = Number($('tb-count').value);
-    const size = teamSize();
-
-    if (state.roster.length > count * size) {
-      $('tb-count').value = String(state.teams.length);
-      $('tb-size').value = String(state.currentSize || 4);
-      notify('Remove players before reducing the roster capacity.');
-      return;
-    }
-
-    const old = state.teams;
-    const assigned = old.flatMap(t => t.players);
-
-    initTeams(count);
-
-    state.teams.forEach((t, i) => {
-      if (old[i]) {
-        t.name = old[i].name;
-        t.color = old[i].color;
-      }
-    });
-
-    assigned.forEach((n, i) => {
-      const index = Math.floor(i / size);
-
-      if (index < count) {
-        state.teams[index].players.push(n);
-      }
-    });
-
-    state.currentSize = size;
-    render();
-  }
 
   $('tb-count').addEventListener('change', changeFormat);
   $('tb-size').addEventListener('change', changeFormat);
@@ -683,7 +843,10 @@ s.append(' ', coinIcon);
   $('tb-balance').addEventListener('click', balance);
 
   $('tb-clear').addEventListener('click', () => {
-    state.teams.forEach(t => t.players = []);
+    state.teams.forEach(team => {
+      team.players = [];
+    });
+
     notify('Team assignments cleared; roster kept.');
     render();
   });
@@ -693,7 +856,10 @@ s.append(' ', coinIcon);
 
     state.roster = [];
     state.guests = {};
+
     initTeams(Number($('tb-count').value));
+    state.currentSize = teamSize();
+
     localStorage.removeItem(KEY);
 
     notify('Builder reset.');
@@ -726,12 +892,12 @@ s.append(' ', coinIcon);
   });
 
   $('tb-export').addEventListener('click', async () => {
-    const text = state.teams.map(t =>
-      `${t.name} (${fmt(
-        t.players.reduce((a, n) => a + score(n), 0)
+    const text = state.teams.map(team =>
+      `${team.name} (${fmt(
+        team.players.reduce((sum, name) => sum + score(name), 0)
       )}):\n` +
-      t.players.map(n =>
-        `• ${n} (${fmt(score(n))})`
+      team.players.map(name =>
+        `• ${name} (${fmt(score(name))})`
       ).join('\n')
     ).join('\n\n');
 
@@ -739,31 +905,30 @@ s.append(' ', coinIcon);
       await navigator.clipboard.writeText(text);
       notify('Teams copied to clipboard.');
     } catch {
-      const a = document.createElement('textarea');
-      a.value = text;
-      document.body.append(a);
-      a.select();
-      document.execCommand('copy');
-      a.remove();
-      notify('Teams copied.');
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.append(textarea);
+      textarea.select();
+
+      const copied = document.execCommand('copy');
+      textarea.remove();
+
+      notify(copied ? 'Teams copied.' : 'Could not copy teams.');
     }
   });
 
-  // Restore saved teams and settings.
+  // Restore saved roster and team configuration.
   initTeams(5);
-  state.currentSize = 4;
 
   try {
     const saved = JSON.parse(
       localStorage.getItem(KEY) || 'null'
     );
 
-    if (saved?.teams && Array.isArray(saved.roster)) {
-      
-const count = [4, 5, 6, 7, 8].includes(saved.teams.length)
-  ? saved.teams.length
-  : 5;
-
+    if (Array.isArray(saved?.teams) && Array.isArray(saved.roster)) {
+      const count = [4, 5, 6, 7, 8].includes(saved.teams.length)
+        ? saved.teams.length
+        : 5;
 
       const size = [2, 3, 4, 5, 6, 7, 8].includes(
         Number(saved.settings?.size)
@@ -771,34 +936,42 @@ const count = [4, 5, 6, 7, 8].includes(saved.teams.length)
 
       $('tb-count').value = String(count);
       $('tb-size').value = String(size);
-      state.currentSize = size;
 
+      state.currentSize = size;
       initTeams(count);
 
-      state.roster = [
-        ...new Map(
-          saved.roster.map(n => [normalize(n), n])
-        ).values()
-      ].slice(0, count * size);
+      // Preserve unique players, including overflow from old saves.
+      const unique = new Map();
 
+      saved.roster.forEach(name => {
+        unique.set(normalize(name), name);
+      });
+
+      state.roster = [...unique.values()];
       state.guests = saved.guests || {};
 
       const used = new Set();
 
-      state.teams = saved.teams.slice(0, count).map((t, i) => ({
-        name: String(t.name || `${defaults[i]} Team`),
-        color: teamColours.some(c =>
-          c.hex.toLowerCase() === String(t.color).toLowerCase()
-        ) ? t.color : teamColours.find(
-          c => c.name === defaults[i]
-        ).hex,
-        players: (t.players || [])
-          .filter(n => {
-            const key = normalize(n);
+      saved.teams.slice(0, count).forEach((oldTeam, i) => {
+        state.teams[i].name =
+          String(oldTeam.name || `${defaults[i]} Team`);
+
+        const colour = teamColours.find(c =>
+          c.hex.toLowerCase() ===
+          String(oldTeam.color).toLowerCase()
+        );
+
+        if (colour) {
+          state.teams[i].color = colour.hex;
+        }
+
+        state.teams[i].players = (oldTeam.players || [])
+          .filter(name => {
+            const key = normalize(name);
 
             if (
-              !state.roster.some(p => normalize(p) === key) ||
-              used.has(key)
+              used.has(key) ||
+              !state.roster.some(n => normalize(n) === key)
             ) {
               return false;
             }
@@ -806,8 +979,8 @@ const count = [4, 5, 6, 7, 8].includes(saved.teams.length)
             used.add(key);
             return true;
           })
-          .slice(0, size)
-      }));
+          .slice(0, size);
+      });
 
       const settings = saved.settings || {};
 

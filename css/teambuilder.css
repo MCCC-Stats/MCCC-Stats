@@ -312,3 +312,55 @@
   -webkit-appearance: none;
   margin: 0;
 }
+
+
+/* Highlight players when dragging another player onto them */
+.tb-person.tb-over {
+  outline: 2px solid #7bb6ff;
+  outline-offset: 1px;
+  background: #383f48;
+}
+
+/* Show all available players in a scrollable search list */
+.tb-search-results {
+  max-height: 320px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Make dragging clearer */
+.tb-person[draggable="true"] {
+  cursor: grab;
+}
+
+.tb-person[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+/* Coin icons */
+.tb-person img.tb-coin-icon {
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-left: 3px;
+  border-radius: 0;
+  image-rendering: pixelated;
+}
+
+.tb-person-score {
+  white-space: nowrap;
+}
+
+/* Hide arrows on newcomer estimated average */
+#tb-guest-score {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+#tb-guest-score::-webkit-inner-spin-button,
+#tb-guest-score::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
