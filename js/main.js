@@ -205,7 +205,8 @@ const username = playerName.toLowerCase();
 const size = [
     "creep1et",
     "wailed_burrito61",
-    "froopyloopidy"
+    "froopyloopidy",
+    "FennecFox1247"
 ].includes(username) ? 64 : 32;
 
 avatar.src = `https://mc-heads.net/avatar/${encodeURIComponent(username)}/${size}`;
@@ -331,7 +332,8 @@ function setupNextEventTeams() {
     const specialHeads = [
         "creep1et",
         "wailed_burrito61",
-        "froopyloopidy"
+        "froopyloopidy",
+        "FennecFox1247"
     ];
 
     projection.teams.forEach(team => {

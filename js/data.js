@@ -2490,27 +2490,26 @@ const MCCC_EVENTS = [
     }
 },
 
+{
+    id: 23,
+    name: "MCCC 20",
+    date: null,
+    season: 2,
+    noncanon: false,
+    banner: "assets/backgrounds/main-lobby.webp",
 
-
-
-];
-
-
-/* ==========================================
-   NEXT EVENT PROJECTION
-   ========================================== */
-
-
-const MCCC_PROJECTION = {
-    name: "MCCC Halloween",
+    dodgebolt: {
+        finalists: ["lime", "red"],
+        winner: "lime"
+    },
 
     games: [
+        "hole_in_the_wall",
+        "battle_box",
+        "tgttos",
         "sky_battle",
         "rocket_spleef_rush",
-        "tgttos",
-        "hole_in_the_wall",
-        "parkour_warrior",
-        "battle_box"
+        "parkour_warrior"
     ],
 
     multipliers: [1, 1.5, 2, 2, 2.5, 3],
@@ -2534,7 +2533,7 @@ const MCCC_PROJECTION = {
             color: "#c5a333",
             icon: "assets/teams/halloween/yellow.webp",
             players: [
-                "funkyman376",
+                "KillerCovey",
                 "vazzavv",
                 "GriffinTheGopher",
                 "Jamescannon86"
@@ -2573,15 +2572,121 @@ const MCCC_PROJECTION = {
                 "Sacred_Bean",
                 "RAHplaysMC24",
                 "Wailed_Burrito61",
-                "JitsuZombie06"
+                "JollyLemur"
             ]
         }
     ],
 
-    newcomers: {
-        "Leetavious": 1000
+    scores: {
+        "Creep1et": [1905, 922.5, 1741, 2252, 1975, 1240],
+        "Jamescannon86": [1375, 435, 942, 220, 1650, 916],
+        "KweenLegend": [1280, 232.5, 554, 280, 1250, 722],
+        "Frogo62": [1070, 255, 1193, 1036, 1200, 838],
+        "vazzavv": [1030, 592.5, 1033, 324, 900, 946],
+        "Wailed_Burrito61": [980, 502.5, 1155, 508, 950, 884],
+        "ItsMrChick3nMan": [935, 255, 891, 552, 1125, 954],
+        "RAHplaysMC24": [790, 322.5, 653, 260, 600, 590],
+        "Sacred_Bean": [780, 552.5, 959, 712, 1225, 892],
+        "Pinewoodcar34": [700, 360, 244, 572, 100, 140],
+        "FennecFox1247": [690, 367.5, 1381, 984, 1275, 908],
+        "Paddyproo": [660, 142.5, 452, 768, 675, 736],
+        "Haze7895": [600, 165, 344, 304, 550, 460],
+        "GriffinTheGopher": [465, 390, 332, 176, 650, 78],
+        "Leetavious": [440, 382.5, 410, 868, 225, 140],
+        "Ev4An": [385, 142.5, 512, 512, 300, 566],
+        "Princessnini20": [250, 382.5, 214, 636, 300, 154],
+        "JollyLemur": [220, 322.5, 178, 208, 100, 178],
+        "DelphinXD": [185, 165, 693, 308, 1025, 658],
+        "KillerCovey": [100, 322.5, 66, 160, 225, 0]
     }
-};
+}
+
+];
+
+
+/* ==========================================
+   NEXT EVENT PROJECTION
+   ========================================== */
+
+
+const MCCC_PROJECTION = {
+    name: "MCCC Halloween",
+
+    games: [
+        "sky_battle",
+        "rocket_spleef_rush",
+        "tgttos",
+        "hole_in_the_wall",
+        "parkour_warrior",
+        "battle_box"
+    ],
+
+    multipliers: [1, 1.5, 2, 2, 2.5, 3],
+
+    
+teams: [
+    {
+        id: "red",
+        name: "Red Ravens",
+        color: "#ff4444",
+        icon: "assets/teams/halloween/red.webp",
+        players: [
+            "Haze7895",
+            "FennecFox1247",
+            "DelphinXD",
+            "KweenLegend"
+        ]
+    },
+    {
+        id: "mustard",
+        name: "Mustard Mummies",
+        color: "#c5a333",
+        icon: "assets/teams/halloween/yellow.webp",
+        players: [
+            "KillerCovey",
+            "vazzavv",
+            "GriffinTheGopher",
+            "Jamescannon86"
+        ]
+    },
+    {
+        id: "lime",
+        name: "Lime Liches",
+        color: "#76c83c",
+        icon: "assets/teams/halloween/lime.webp",
+        players: [
+            "ItsMrChick3nMan",
+            "Frogo62",
+            "Paddyproo",
+            "Ev4An"
+        ]
+    },
+    {
+        id: "aqua",
+        name: "Aqua Abominations",
+        color: "#36cbd3",
+        icon: "assets/teams/halloween/aqua.webp",
+        players: [
+            "Pinewoodcar34",
+            "Princessnini20",
+            "Creep1et",
+            "Leetavious"
+        ]
+    },
+    {
+        id: "violet",
+        name: "Violet Vampires",
+        color: "#a05bd6",
+        icon: "assets/teams/halloween/purple.webp",
+        players: [
+            "Sacred_Bean",
+            "RAHplaysMC24",
+            "Wailed_Burrito61",
+            "JollyLemur"
+        ]
+    }
+],
+}
 
 
 /* ==========================================
