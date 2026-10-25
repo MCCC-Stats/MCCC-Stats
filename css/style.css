@@ -4446,3 +4446,17 @@ html[data-theme="light"] .projection-bar-track {
 /* Small winner team icons in place of colour dots */
 .event-archive-winner-icon { display:block; width:19px; height:19px; flex:0 0 19px; object-fit:contain; }
 .event-archive-winner-line { min-height:19px; }
+
+
+/* Prevent navbar links from wrapping onto multiple lines */
+.navbar-end .nav-link {
+  white-space: nowrap;
+}
+
+/* Keep navigation links on one line */
+.navbar-end {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 15px;
+}
