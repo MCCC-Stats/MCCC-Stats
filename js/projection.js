@@ -52,7 +52,8 @@ const gameNames = new Map(
         const size = [
             "creep1et",
             "wailed_burrito61",
-            "froopyloopidy"
+            "froopyloopidy",
+            "fennecfox1247"
         ].includes(username) ? 64 : 32;
 
         return `https://mc-heads.net/avatar/${encodeURIComponent(username)}/${size}`;

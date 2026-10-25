@@ -1933,7 +1933,8 @@ const largeHeads = [
   "sacred_bean",
   "wailed_burrito61",
   "froopyloopidy",
-  "awsomeants"
+  "awsomeants",
+  "fennecfox1247"
 ];
 
 const size = largeHeads.includes(skinUsername) ? 64 : 32;

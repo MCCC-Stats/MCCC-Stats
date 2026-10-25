@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function createPlayerHead(name) {
     const image = document.createElement("img");
     const username = normalizeName(name);
-    const large = ["creep1et", "sacred_bean", "wailed_burrito61", "froopyloopidy"].includes(username);
+    const large = ["creep1et", "sacred_bean", "wailed_burrito61", "froopyloopidy", "fennecfox1247"].includes(username);
     image.src = `https://mc-heads.net/avatar/${encodeURIComponent(username)}/${large ? 64 : 32}`;
     image.alt = "";
     image.loading = "lazy";

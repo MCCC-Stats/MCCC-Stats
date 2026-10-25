@@ -46,7 +46,8 @@
     "sacred_bean",
     "wailed_burrito61",
     "froopyloopidy",
-    "awsomeants"
+    "awsomeants",
+    "fennecfox1247"
   ]);
 
   function playerImage(name) {
