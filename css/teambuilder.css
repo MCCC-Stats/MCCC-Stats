@@ -1149,3 +1149,17 @@
     }
 }
 
+
+/* =========================================
+   ADVANCED BALANCING DROPDOWN FIX
+   ========================================= */
+
+.tb-advanced {
+    position: relative;
+    z-index: 20;
+}
+
+.tb-workspace {
+    position: relative;
+    z-index: 1;
+}
