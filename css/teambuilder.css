@@ -1,366 +1,1151 @@
 
+/* =========================================
+   MCCC TEAM BUILDER
+   ========================================= */
+
+/* Main Page */
+
 .tb-page {
-  max-width: 1340px;
-  margin: 36px auto;
-  padding: 0 22px 70px;
-  color: #f4f4f4;
-  font-family: Lexend, 'Lexend Deca', sans-serif;
+    max-width: 1340px;
+    margin: 36px auto;
+    padding: 0 22px 70px;
+    color: #f4f4f4;
+    font-family: Lexend, 'Lexend Deca', sans-serif;
 }
 
-.tb-page h1 { font-size: 26px; margin: 0 0 8px; }
-.tb-page h2 { font-size: 19px; margin: 0; }
-.tb-page h3 { font-size: 15px; margin: 20px 0 8px; }
-.tb-muted { color: #aaa; font-size: 13px; }
+.tb-page h1 {
+    font-size: 26px;
+    margin: 0 0 8px;
+}
+
+.tb-page h2 {
+    font-size: 19px;
+    margin: 0;
+}
+
+.tb-page h3 {
+    font-size: 15px;
+    margin: 18px 0 8px;
+}
+
+.tb-muted {
+    color: #aaa;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   PANELS
+   ========================================= */
 
 .tb-panel {
-  background: #242424;
-  border: 1px solid #353535;
-  border-radius: 11px;
-  padding: 19px;
+    background: #242424;
+    border: 1px solid #353535;
+    border-radius: 11px;
+    padding: 19px;
 }
+
+
+/* =========================================
+   SETTINGS
+   ========================================= */
 
 .tb-settings {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  gap: 16px;
-  margin: 24px 0 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 16px;
+    margin: 24px 0 14px;
 }
 
-.tb-settings > div { min-width: 160px; flex: 1; }
+.tb-settings > div {
+    min-width: 160px;
+    flex: 1;
+}
 
 .tb-page label {
-  display: block;
-  font-size: 12px;
-  font-weight: 650;
-  margin-bottom: 7px;
+    display: block;
+    font-size: 12px;
+    font-weight: 650;
+    margin-bottom: 7px;
 }
 
-.tb-page input:not([type=checkbox]),
+.tb-page input:not([type="checkbox"]),
 .tb-page select {
-  width: 100%;
-  min-width: 0;
-  background: #2b2b2b;
-  border: 1px solid #414141;
-  border-radius: 7px;
-  padding: 11px 12px;
-  color: #f4f4f4;
-  font: inherit;
-  font-size: 13px;
+    width: 100%;
+    min-width: 0;
+    background: #2b2b2b;
+    border: 1px solid #414141;
+    border-radius: 7px;
+    padding: 11px 12px;
+    color: #f4f4f4;
+    font: inherit;
+    font-size: 13px;
 }
-
-.tb-page button {
-  background: #333;
-  border: 1px solid #494949;
-  color: #fff;
-  border-radius: 7px;
-  padding: 10px 13px;
-  font: inherit;
-  font-size: 12px;
-  font-weight: 650;
-  cursor: pointer;
-}
-
-.tb-page button:hover { background: #454545; }
-.tb-page button:disabled { opacity: .4; cursor: not-allowed; }
-
-.tb-page button.tb-primary {
-  background: #1970d1;
-  border-color: #1970d1;
-}
-
-.tb-page button.tb-primary:hover { background: #2883e6; }
 
 .tb-check {
-  display: flex !important;
-  gap: 8px;
-  align-items: center;
-  margin: 0 0 11px !important;
-  white-space: nowrap;
+    display: flex !important;
+    gap: 8px;
+    align-items: center;
+    margin: 0 0 11px !important;
+    white-space: nowrap;
 }
 
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+
+.tb-page button {
+    background: #333;
+    border: 1px solid #494949;
+    color: #fff;
+    border-radius: 7px;
+    padding: 10px 13px;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+.tb-page button:hover {
+    background: #454545;
+}
+
+.tb-page button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   TOOLBAR
+   ========================================= */
+
 .tb-toolbar {
-  display: flex;
-  gap: 9px;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 17px;
+    display: flex;
+    gap: 9px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 17px;
 }
 
 .tb-toolbar #tb-message {
-  font-size: 12px;
-  color: #a9c8ec;
+    font-size: 12px;
+    color: #a9c8ec;
 }
+
+
+/* =========================================
+   WORKSPACE LAYOUT
+   ========================================= */
 
 .tb-workspace {
-  display: grid;
-  grid-template-columns: minmax(270px,330px) minmax(0,1fr);
-  gap: 18px;
-  align-items: start;
+    display: grid;
+    grid-template-columns: minmax(270px, 330px) minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
 }
+
+
+/* =========================================
+   PLAYER POOL
+   ========================================= */
 
 .tb-pool h2 {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.tb-pool h2 span { font-size: 12px; color: #aaa; }
+.tb-pool h2 span {
+    font-size: 12px;
+    color: #aaa;
+}
 
 .tb-search-results {
-  max-height: 230px;
-  overflow: auto;
-  margin: 8px 0 15px;
+    max-height: 320px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    margin: 8px 0 15px;
 }
 
 .tb-person {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  background: #303030;
-  border: 1px solid #414141;
-  border-radius: 7px;
-  padding: 8px;
-  margin: 6px 0;
-  min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: #303030;
+    border: 1px solid #414141;
+    border-radius: 7px;
+    padding: 8px;
+    margin: 6px 0;
+    min-width: 0;
 }
 
-.tb-person img {
-  width: 30px;
-  height: 30px;
-  image-rendering: pixelated;
-  border-radius: 4px;
+.tb-person > img {
+    width: 30px;
+    height: 30px;
+    image-rendering: pixelated;
+    border-radius: 4px;
 }
 
 .tb-person-name {
-  min-width: 0;
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 12px;
-  font-weight: 650;
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 650;
 }
 
 .tb-person-score {
-  font-size: 11px;
-  color: #bcbcbc;
-  font-variant-numeric: tabular-nums;
+    font-size: 11px;
+    color: #bcbcbc;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.tb-person img.tb-coin-icon {
+    width: 13px;
+    height: 13px;
+    object-fit: contain;
+    vertical-align: middle;
+    margin-left: 3px;
+    border-radius: 0;
+    image-rendering: pixelated;
 }
 
 .tb-person button {
-  padding: 5px 8px;
-  font-size: 11px;
-  cursor: pointer;
+    padding: 5px 8px;
+    font-size: 11px;
 }
 
-.tb-person[draggable=true] { cursor: grab; }
 
-.tb-inline { display: flex; gap: 6px; }
-.tb-inline button { flex: none; }
+/* =========================================
+   DRAG AND DROP
+   ========================================= */
 
-.tb-guest {
-  padding: 14px 0;
-  border-top: 1px solid #3b3b3b;
-  border-bottom: 1px solid #3b3b3b;
+.tb-person[draggable="true"] {
+    cursor: grab;
 }
 
-.tb-guest label:not(:first-child) { margin-top: 10px; }
+.tb-person[draggable="true"]:active {
+    cursor: grabbing;
+}
+
+.tb-person.tb-over {
+    outline: 2px solid #7bb6ff;
+    outline-offset: 1px;
+    background: #383f48;
+}
 
 .tb-dropzone {
-  min-height: 70px;
-  padding: 4px;
-  border: 1px dashed #555;
-  border-radius: 8px;
+    min-height: 70px;
+    padding: 4px;
+    border: 1px dashed #555;
+    border-radius: 8px;
 }
 
 .tb-dropzone.tb-over,
 .tb-team.tb-over {
-  outline: 2px dashed #7bb6ff;
-  outline-offset: 1px;
+    outline: 2px dashed #7bb6ff;
+    outline-offset: 1px;
 }
 
-.tb-small { font-size: 11px; line-height: 1.6; }
+.tb-small {
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   ADD NEWCOMER
+   ========================================= */
+
+.tb-inline {
+    display: flex;
+    gap: 6px;
+}
+
+.tb-inline button {
+    flex: none;
+}
+
+.tb-guest {
+    padding: 14px 0;
+    border-top: 1px solid #3b3b3b;
+    border-bottom: 1px solid #3b3b3b;
+}
+
+.tb-guest label:not(:first-child) {
+    margin-top: 10px;
+}
+
+/* Hide number input arrows */
+
+#tb-guest-score {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+#tb-guest-score::-webkit-inner-spin-button,
+#tb-guest-score::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* =========================================
+   TEAM SUMMARY
+   ========================================= */
 
 .tb-summary {
-  display: flex;
-  justify-content: space-around;
-  gap: 12px;
-  margin-bottom: 14px;
-  text-align: center;
+    display: flex;
+    justify-content: space-around;
+    gap: 12px;
+    margin-bottom: 14px;
+    text-align: center;
 }
 
 .tb-summary > div {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
-.tb-summary strong { font-size: 19px; }
-.tb-summary span { font-size: 11px; color: #aaa; }
+.tb-summary strong {
+    font-size: 19px;
+}
+
+.tb-summary span {
+    font-size: 11px;
+    color: #aaa;
+}
+
+
+/* =========================================
+   TEAM GRID
+   ========================================= */
 
 .tb-team-grid {
-  display: grid;
-  grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 13px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
 }
 
 .tb-team {
-  border: 1px solid #414141;
-  border-top: 4px solid var(--team-color);
-  border-radius: 9px;
-  background: #262626;
-  padding: 13px;
-  min-width: 0;
+    border: 1px solid #414141;
+    border-top: 4px solid var(--team-color);
+    border-radius: 9px;
+    background: #262626;
+    padding: 13px;
+    min-width: 0;
 }
 
+
+/* =========================================
+   TEAM HEADERS
+   ========================================= */
+
 .tb-team-header {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-bottom: 11px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 11px;
 }
 
 .tb-team-header img {
-  width: 35px;
-  height: 35px;
-  object-fit: contain;
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
 }
 
 .tb-team-header input {
-  font-weight: 750;
-  background: transparent !important;
-  border: 0 !important;
-  padding: 5px !important;
-  flex: 1;
-  width: 100%;
-  min-width: 0;
+    font-weight: 750;
+    background: transparent !important;
+    border: 0 !important;
+    padding: 5px !important;
+    flex: 1;
+    width: 100%;
+    min-width: 0;
 }
 
-.tb-team-header input:focus { outline: 1px solid #777; }
+.tb-team-header input:focus {
+    outline: 1px solid #777;
+}
 
 .tb-team-header select.tb-colour-select {
-  flex: 0 0 94px;
-  width: 94px;
-  min-width: 94px;
-  padding: 7px 5px;
-  font-size: 11px;
+    flex: 0 0 94px;
+    width: 94px;
+    min-width: 94px;
+    padding: 7px 5px;
+    font-size: 11px;
 }
 
+
+/* =========================================
+   TEAM PLAYER SLOTS
+   ========================================= */
+
 .tb-team-slot {
-  min-height: 49px;
-  background: #303030;
-  border: 1px solid #414141;
-  border-radius: 6px;
-  margin: 5px 0;
-  padding: 4px;
+    min-height: 49px;
+    background: #303030;
+    border: 1px solid #414141;
+    border-radius: 6px;
+    margin: 5px 0;
+    padding: 4px;
 }
 
 .tb-team-slot.tb-empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #777;
-  font-size: 12px;
-  border-style: dashed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    font-size: 12px;
+    border-style: dashed;
 }
+
+
+/* =========================================
+   TEAM TOTALS
+   ========================================= */
 
 .tb-team-total {
-  display: flex;
-  justify-content: space-between;
-  border-top: 1px solid #454545;
-  padding-top: 11px;
-  margin-top: 10px;
-  font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #454545;
+    padding-top: 11px;
+    margin-top: 10px;
+    font-size: 12px;
 }
 
-.tb-team-total strong { font-size: 15px; }
-.tb-footnote { margin-top: 20px; line-height: 1.6; }
-
-@media(max-width:850px) {
-  .tb-workspace { grid-template-columns: 1fr; }
-  .tb-team-grid { grid-template-columns: 1fr; }
-  .tb-summary { flex-wrap: wrap; }
-  .tb-settings > div { min-width: 135px; }
+.tb-team-total strong {
+    font-size: 15px;
 }
 
 
-/* Coin icon beside player scores */
-.tb-person img.tb-coin-icon {
-  width: 13px;
-  height: 13px;
-  object-fit: contain;
-  vertical-align: middle;
-  margin-left: 3px;
-  border-radius: 0;
-  image-rendering: pixelated;
+/* =========================================
+   ADVANCED BALANCING
+   ========================================= */
+
+.tb-advanced {
+    margin: 0 0 17px;
 }
 
-.tb-person-score {
-  white-space: nowrap;
+.tb-advanced-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
 }
 
-/* Hide number input spinner arrows */
-#tb-guest-score {
-  appearance: textfield;
-  -moz-appearance: textfield;
-}
-
-#tb-guest-score::-webkit-inner-spin-button,
-#tb-guest-score::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.tb-advanced-heading span {
+    font-size: 11px;
+    color: #aaa;
 }
 
 
-/* Highlight players when dragging another player onto them */
-.tb-person.tb-over {
-  outline: 2px solid #7bb6ff;
-  outline-offset: 1px;
-  background: #383f48;
+/* =========================================
+   KEEP TOGETHER / KEEP APART
+   ========================================= */
+
+.tb-rule-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
 }
 
-/* Show all available players in a scrollable search list */
-.tb-search-results {
-  max-height: 320px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+.tb-rule-grid h3 {
+    margin: 8px 0 10px;
 }
 
-/* Make dragging clearer */
-.tb-person[draggable="true"] {
-  cursor: grab;
+.tb-rule-inputs {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.tb-rule-inputs button {
+    flex: none;
+    min-height: 43px;
+}
+
+.tb-rule-picker {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
+.tb-rule-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 43px;
+    padding: 8px 10px !important;
+    text-align: left;
+    background: #2b2b2b !important;
+    border: 1px solid #414141 !important;
+    border-radius: 7px;
+}
+
+.tb-rule-trigger:hover {
+    background: #363636 !important;
+}
+
+.tb-rule-trigger span {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+.tb-rule-trigger .tb-placeholder {
+    color: #999;
+}
+
+.tb-rule-trigger .tb-arrow {
+    flex: none;
+    color: #aaa;
+    font-size: 10px;
+}
+
+.tb-rule-avatar {
+    width: 24px;
+    height: 24px;
+    flex: none;
+    border-radius: 4px;
+    object-fit: cover;
+    image-rendering: pixelated;
+}
+
+.tb-rule-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #292929;
+    border: 1px solid #494949;
+    border-radius: 8px;
+    padding: 5px;
+    max-height: 245px;
+    overflow-y: auto;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.tb-rule-menu[hidden] {
+    display: none;
+}
+
+.tb-rule-option {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    padding: 7px 9px !important;
+    text-align: left;
+    border: none !important;
+    background: transparent !important;
+    border-radius: 5px;
+}
+
+.tb-rule-option:hover {
+    background: #414141 !important;
+}
+
+.tb-rule-option span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tb-rule-empty {
+    padding: 10px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+
+/* =========================================
+   EXISTING PLAYER RESTRICTIONS
+   ========================================= */
+
+.tb-rule {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin: 7px 0;
+    padding: 7px 9px;
+    background: #303030;
+    border: 1px solid #414141;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.tb-rule-players {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
+.tb-rule-player {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.tb-rule-player span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tb-rule-separator {
+    color: #999;
+}
+
+.tb-rule button {
+    flex: none;
+    padding: 4px 9px;
+}
+
+
+/* =========================================
+   BALANCING RESULTS
+   ========================================= */
+
+.tb-advanced-results {
+    margin-top: 14px;
+}
+
+.tb-result-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+
+/* =========================================
+   NAVBAR FIX
+   ========================================= */
+
+.navbar-end .nav-link {
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   RESPONSIVE DESIGN
+   ========================================= */
+
+@media (max-width: 850px) {
+
+    .tb-workspace {
+        grid-template-columns: 1fr;
+    }
+
+    .tb-team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tb-summary {
+        flex-wrap: wrap;
+    }
+
+    .tb-settings > div {
+        min-width: 135px;
+    }
+
+    .tb-rule-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .tb-rule-inputs {
+        flex-wrap: wrap;
+    }
+
+    .tb-rule-picker {
+        flex: 1 1 calc(50% - 8px);
+    }
+
+    .tb-rule-inputs > button {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================
+   SEARCHABLE PLAYER RESTRICTIONS
+   ========================================= */
+
+.tb-rule-search {
+    width: 100%;
+    min-width: 0;
+    border: none !important;
+    outline: none;
+    background: transparent !important;
+    color: #f4f4f4;
+    font: inherit;
+    font-size: 12px;
+    padding: 0 !important;
+}
+
+.tb-rule-search::placeholder {
+    color: #999;
+}
+
+.tb-rule-trigger:focus-within {
+    border-color: #7bb6ff !important;
+}
+
+.tb-rule-option[hidden] {
+    display: none !important;
+}
+
+.tb-rule-selected {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.tb-rule-selected .tb-rule-player {
+    flex: 1;
+    min-width: 0;
+}
+
+
+/* Spacing below Keep Together / Keep Apart selectors */
+
+.tb-advanced .tb-rule-grid + .tb-muted {
+    margin-top: 18px;
+}
+
+
+/* =========================================
+   PLAYER POOL SORTING
+   ========================================= */
+
+.tb-pool-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.tb-pool-header h2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    margin: 0;
+}
+
+.tb-pool-header h2 span {
+    font-size: 11px;
+    color: #aaa;
+    font-weight: 400;
+}
+
+.tb-sort {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.tb-sort label {
+    margin: 0;
+    color: #aaa;
+    white-space: nowrap;
+    font-size: 11px;
+}
+
+.tb-page .tb-sort select {
+    width: 115px;
+    min-width: 115px;
+    padding: 7px 8px;
+    font-size: 11px;
+}
+
+
+/* =========================================
+   TEAM BUILDER ANIMATIONS
+   ========================================= */
+
+/* Page entrance */
+
+@keyframes tb-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tb-page > h1,
+.tb-page > .tb-muted,
+.tb-settings,
+.tb-toolbar,
+.tb-advanced,
+.tb-workspace {
+    animation: tb-fade-up 0.4s ease both;
+}
+
+.tb-page > .tb-muted {
+    animation-delay: 0.05s;
+}
+
+.tb-settings {
+    animation-delay: 0.08s;
+}
+
+.tb-toolbar {
+    animation-delay: 0.12s;
+}
+
+.tb-advanced {
+    animation-delay: 0.16s;
+}
+
+.tb-workspace {
+    animation-delay: 0.2s;
+}
+
+
+/* Buttons */
+
+.tb-page button {
+    transition:
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease;
+}
+
+.tb-page button:not(:disabled):active {
+    transform: scale(0.97);
+}
+
+
+/* Input focus */
+
+.tb-page input:not([type="checkbox"]),
+.tb-page select {
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.tb-page input:focus,
+.tb-page select:focus {
+    border-color: #7bb6ff;
+}
+
+
+/* Player cards */
+
+.tb-person {
+    transition:
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease;
+}
+
+.tb-person[draggable="true"]:hover {
+    background: #393939;
+    border-color: #555;
 }
 
 .tb-person[draggable="true"]:active {
-  cursor: grabbing;
+    transform: scale(0.98);
 }
 
-/* Coin icons */
-.tb-person img.tb-coin-icon {
-  width: 13px;
-  height: 13px;
-  object-fit: contain;
-  vertical-align: middle;
-  margin-left: 3px;
-  border-radius: 0;
-  image-rendering: pixelated;
+
+/* Team cards */
+
+.tb-team {
+    transition:
+        border-color 0.25s ease,
+        background-color 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
-.tb-person-score {
-  white-space: nowrap;
+.tb-team:hover {
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
 }
 
-/* Hide arrows on newcomer estimated average */
-#tb-guest-score {
-  appearance: textfield;
-  -moz-appearance: textfield;
+
+/* New team arrangements */
+
+@keyframes tb-team-refresh {
+    from {
+        opacity: 0.5;
+        transform: translateY(7px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-#tb-guest-score::-webkit-inner-spin-button,
-#tb-guest-score::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.tb-team-grid.tb-animate .tb-team {
+    animation: tb-team-refresh 0.3s ease both;
+}
+
+.tb-team-grid.tb-animate .tb-team:nth-child(2) {
+    animation-delay: 0.04s;
+}
+
+.tb-team-grid.tb-animate .tb-team:nth-child(3) {
+    animation-delay: 0.08s;
+}
+
+.tb-team-grid.tb-animate .tb-team:nth-child(4) {
+    animation-delay: 0.12s;
+}
+
+.tb-team-grid.tb-animate .tb-team:nth-child(5) {
+    animation-delay: 0.16s;
+}
+
+.tb-team-grid.tb-animate .tb-team:nth-child(6) {
+    animation-delay: 0.2s;
+}
+
+.tb-team-grid.tb-animate .tb-team:nth-child(7) {
+    animation-delay: 0.24s;
+}
+
+.tb-team-grid.tb-animate .tb-team:nth-child(8) {
+    animation-delay: 0.28s;
+}
+
+
+/* Dropdown menus */
+
+@keyframes tb-menu-enter {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tb-rule-menu:not([hidden]) {
+    animation: tb-menu-enter 0.16s ease both;
+}
+
+
+/* Respect reduced-motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .tb-page *,
+    .tb-page *::before,
+    .tb-page *::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: 0.01ms !important;
+    }
+
+}
+
+
+/* =========================================
+   AUTO BALANCE PROGRESS
+   ========================================= */
+
+.tb-balance-progress {
+    margin: -5px 0 17px;
+    padding: 13px 16px;
+    background: #242424;
+    border: 1px solid #353535;
+    border-radius: 9px;
+}
+
+.tb-balance-progress[hidden] {
+    display: none;
+}
+
+.tb-progress-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 9px;
+    font-size: 12px;
+    color: #ccc;
+}
+
+.tb-progress-track {
+    height: 7px;
+    overflow: hidden;
+    background: #383838;
+    border-radius: 20px;
+}
+
+.tb-progress-fill {
+    width: 0%;
+    height: 100%;
+    background: #7bb6ff;
+    border-radius: inherit;
+    transition: width 0.15s ease;
+}
+
+#tb-balance.tb-balancing {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tb-progress-fill {
+        transition: none;
+    }
+}
+
+
+/* =========================================
+   BALANCING ATTEMPTS
+   ========================================= */
+
+.tb-attempts {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tb-attempts label {
+    margin: 0;
+    color: #aaa;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.tb-page .tb-attempts select {
+    width: 105px;
+    min-width: 105px;
+    padding: 9px 10px;
+    font-size: 11px;
+}
+
+
+/* =========================================
+   BALANCING TIME ESTIMATES
+   ========================================= */
+
+.tb-time-estimate {
+    color: #aaa;
+    font-size: 11px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================
+   BALANCING TOOLBAR RESPONSIVENESS
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .tb-attempts {
+        flex: 1 1 auto;
+    }
+
+    .tb-time-estimate {
+        flex: 1 1 100%;
+    }
+
+}
+
+
+/* Push action buttons to the right of the toolbar */
+
+.tb-toolbar #tb-clear {
+    margin-left: auto;
+}
+
+
+
+/* =========================================
+   FLOATING NOTIFICATIONS
+   ========================================= */
+
+.tb-message-row {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.tb-message-row:has(#tb-message:empty) {
+    display: none;
+}
+
+.tb-message-row #tb-message {
+    display: block;
+    background: #292929;
+    color: #a9c8ec;
+    border: 1px solid #454545;
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: 12px;
+    font-weight: 500;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+
+    animation: tb-toast-in 0.25s ease-out both;
+}
+
+.tb-message-row #tb-message.tb-toast-hide {
+    animation: tb-toast-out 0.6s ease-in forwards;
+}
+
+@keyframes tb-toast-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes tb-toast-out {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(12px);
+    }
 }
 

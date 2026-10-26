@@ -4460,3 +4460,88 @@ html[data-theme="light"] .projection-bar-track {
   flex-wrap: nowrap;
   gap: 15px;
 }
+
+
+
+/* =========================================
+   MCCC PAGE ENTRANCE ANIMATIONS
+   ========================================= */
+
+@keyframes mccc-page-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Animate the page once, without moving it */
+body:not(:has(.tb-page)) main {
+    animation: mccc-page-fade 0.35s ease-out both;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    body:not(:has(.tb-page)) main {
+        animation: none !important;
+    }
+}
+
+
+/* Keep the navbar stable during page entrance */
+
+body:not(:has(.tb-page)) header,
+body:not(:has(.tb-page)) nav {
+    animation: none !important;
+    transition: none !important;
+}
+
+
+/* =========================================
+   NAVBAR LAYOUT STABILITY
+   ========================================= */
+
+@media (min-width: 1101px) {
+    
+.site-header .navbar:has(.navbar-search) {
+    display: grid;
+    grid-template-columns: 1fr minmax(180px, 280px) 1fr;
+    align-items: center;
+    gap: 16px;
+}
+
+
+    .site-header .navbar-start {
+        justify-self: start;
+        min-width: 0;
+    }
+
+    .site-header .navbar-search {
+        width: 100%;
+        min-width: 0;
+        justify-self: center;
+    }
+
+    .site-header .navbar-end {
+        justify-self: end;
+        white-space: nowrap;
+    }
+}
+
+@media (min-width: 1101px) {
+    .site-header .navbar:has(.navbar-search) {
+        display: grid;
+        grid-template-columns: 1fr minmax(180px, 280px) 1fr;
+        align-items: center;
+        gap: 16px;
+    }
+}
+
+
+/* Reserve scrollbar space before page content loads */
+html {
+    scrollbar-gutter: stable;
+}
+
