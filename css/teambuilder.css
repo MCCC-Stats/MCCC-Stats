@@ -1163,3 +1163,154 @@
     position: relative;
     z-index: 1;
 }
+
+/* =========================================
+   KEEP WITH AT LEAST ONE
+   ========================================= */
+
+.tb-atleast-section {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid #3b3b3b;
+}
+
+.tb-atleast-section h3 {
+    margin: 0 0 12px;
+}
+
+/* Main controls */
+
+.tb-atleast-controls {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.tb-atleast-controls > .tb-rule-picker {
+    flex: 1;
+    min-width: 0;
+}
+
+.tb-atleast-controls > button {
+    flex: none;
+    min-height: 43px;
+}
+
+/* Multiple teammate selector */
+
+.tb-atleast-choices {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
+.tb-atleast-choices > button {
+    width: 100%;
+    min-height: 43px;
+    text-align: left;
+    background: #2b2b2b;
+    border: 1px solid #414141;
+    font-weight: 400;
+}
+
+.tb-atleast-choices > button:hover {
+    background: #363636;
+}
+
+/* Dropdown */
+
+.tb-atleast-options {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    z-index: 150;
+
+    max-height: 245px;
+    overflow-y: auto;
+
+    padding: 6px;
+    background: #292929;
+    border: 1px solid #494949;
+    border-radius: 8px;
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.tb-atleast-options[hidden] {
+    display: none;
+}
+
+/* Individual checkbox options */
+
+.tb-atleast-option {
+    display: flex !important;
+    align-items: center;
+    gap: 9px;
+
+    margin: 0 !important;
+    padding: 8px 9px;
+
+    border-radius: 5px;
+    cursor: pointer;
+
+    font-size: 12px;
+    font-weight: 400 !important;
+}
+
+.tb-atleast-option:hover {
+    background: #414141;
+}
+
+.tb-atleast-option input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    flex: none;
+    margin: 0;
+    accent-color: #7bb6ff;
+}
+
+.tb-atleast-option .tb-rule-player {
+    min-width: 0;
+}
+
+/* Existing restrictions */
+
+#tb-atleast-list {
+    margin-top: 10px;
+}
+
+#tb-atleast-list .tb-rule-players {
+    flex: 1;
+}
+
+/* Keep dropdowns above the workspace */
+
+.tb-advanced {
+    position: relative;
+    z-index: 20;
+    overflow: visible;
+}
+
+.tb-workspace {
+    position: relative;
+    z-index: 1;
+}
+
+/* Mobile layout */
+
+@media (max-width: 650px) {
+    .tb-atleast-controls {
+        flex-wrap: wrap;
+    }
+
+    .tb-atleast-controls > .tb-rule-picker,
+    .tb-atleast-choices {
+        flex: 1 1 100%;
+    }
+
+    .tb-atleast-controls > button {
+        width: 100%;
+    }
+}

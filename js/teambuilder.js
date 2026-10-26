@@ -35,13 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const state = {
-        teams: [],
-        roster: [],
-        guests: {},
-        together: [],
-        apart: [],
-        results: []
-    };
+    teams: [],
+    roster: [],
+    guests: {},
+    together: [],
+    apart: [],
+    atLeastOne: [],
+    results: []
+};
 
     const norm = value =>
         String(value ?? '').trim().toLowerCase();
@@ -370,14 +371,25 @@ function notify(message) {
     }
 
     function cleanupRules() {
-        state.together = state.together.filter(
-            ([a, b]) => inRoster(a) && inRoster(b)
-        );
+    state.together = state.together.filter(
+        ([a, b]) => inRoster(a) && inRoster(b)
+    );
 
-        state.apart = state.apart.filter(
-            ([a, b]) => inRoster(a) && inRoster(b)
+    state.apart = state.apart.filter(
+        ([a, b]) => inRoster(a) && inRoster(b)
+    );
+
+    state.atLeastOne = state.atLeastOne
+        .map(rule => ({
+            player: rule.player,
+            options: rule.options.filter(
+                name => inRoster(name) && name !== rule.player
+            )
+        }))
+        .filter(rule =>
+            inRoster(rule.player) && rule.options.length > 0
         );
-    }
+}
 
     function addPlayer(name, guest = false) {
         name = String(name || '').trim();
@@ -804,8 +816,38 @@ function notify(message) {
 
         </div>
 
+        <div class="tb-atleast-section">
+    <h3>Keep with at least one</h3>
+
+    <div class="tb-atleast-controls">
+        <div id="tb-atleast-player"></div>
+
+        <div class="tb-atleast-choices">
+            <button
+                id="tb-atleast-options-toggle"
+                type="button"
+                aria-expanded="false"
+            >
+                Choose possible teammates ▾
+            </button>
+
+            <div
+                id="tb-atleast-options"
+                class="tb-atleast-options"
+                hidden
+            ></div>
+        </div>
+
+        <button id="tb-add-atleast" type="button">
+            Add
+        </button>
+    </div>
+
+    <div id="tb-atleast-list"></div>
+</div>
+
         <p class="tb-muted tb-small">
-            Choose two players to add a restriction.
+            Choose players to add a restriction.
             All restrictions are respected during balancing.
         </p>
 
@@ -990,11 +1032,12 @@ function notify(message) {
     }
 
     [
-        'tb-together-a',
-        'tb-together-b',
-        'tb-apart-a',
-        'tb-apart-b'
-    ].forEach(createPlayerPicker);
+    'tb-together-a',
+    'tb-together-b',
+    'tb-apart-a',
+    'tb-apart-b',
+    'tb-atleast-player'
+].forEach(createPlayerPicker);
 
     document.addEventListener('pointerdown', event => {
     const clickedInside = [...pickers.values()].some(
@@ -1149,13 +1192,24 @@ option.addEventListener('click', event => {
     }
 
     function renderRules() {
-        ['together', 'apart'].forEach(type => {
-            fillPicker(`tb-${type}-a`);
-            fillPicker(`tb-${type}-b`);
+    ['together', 'apart'].forEach(type => {
+        fillPicker(`tb-${type}-a`);
+        fillPicker(`tb-${type}-b`);
 
-            renderRuleList(type);
-        });
+        renderRuleList(type);
+    });
+
+    fillPicker('tb-atleast-player');
+
+    for (const name of [...atleastChoices]) {
+        if (!inRoster(name)) {
+            atleastChoices.delete(name);
+        }
     }
+
+    renderAtLeastChoices();
+    renderAtLeastRules();
+}
 
     function addRule(type) {
         const a = pickers.get(`tb-${type}-a`).value;
@@ -1188,6 +1242,167 @@ option.addEventListener('click', event => {
 
         render();
     }
+
+    // Keep With At Least One
+
+const atleastChoices = new Set();
+const atleastOptions = $('tb-atleast-options');
+const atleastToggle = $('tb-atleast-options-toggle');
+
+atleastToggle.onclick = () => {
+    atleastOptions.hidden = !atleastOptions.hidden;
+
+    atleastToggle.setAttribute(
+        'aria-expanded',
+        String(!atleastOptions.hidden)
+    );
+};
+
+function updateAtLeastToggle() {
+    const count = atleastChoices.size;
+
+    atleastToggle.textContent = count
+        ? `${count} possible teammate${count === 1 ? '' : 's'} selected ▾`
+        : 'Choose possible teammates ▾';
+}
+
+function renderAtLeastChoices() {
+    const primary = pickers.get('tb-atleast-player').value;
+
+    atleastOptions.replaceChildren();
+
+    const players = [...state.roster].sort(
+        (a, b) => a.localeCompare(b)
+    );
+
+    for (const name of players) {
+        if (norm(name) === primary) {
+            continue;
+        }
+
+        const label = document.createElement('label');
+        label.className = 'tb-atleast-option';
+
+        const check = document.createElement('input');
+        check.type = 'checkbox';
+        check.checked = atleastChoices.has(norm(name));
+
+        check.onchange = () => {
+            if (check.checked) {
+                atleastChoices.add(norm(name));
+            } else {
+                atleastChoices.delete(norm(name));
+            }
+
+            updateAtLeastToggle();
+        };
+
+        label.append(check, playerLabel(name));
+        atleastOptions.append(label);
+    }
+
+    updateAtLeastToggle();
+}
+
+function renderAtLeastRules() {
+    const root = $('tb-atleast-list');
+
+    root.replaceChildren();
+
+    const displayName = key =>
+        state.roster.find(name => norm(name) === key) || key;
+
+    state.atLeastOne.forEach((rule, index) => {
+        const row = document.createElement('div');
+        row.className = 'tb-rule';
+
+        const players = document.createElement('div');
+        players.className = 'tb-rule-players';
+
+        players.append(
+            playerLabel(displayName(rule.player))
+        );
+
+        const separator = document.createElement('span');
+        separator.className = 'tb-rule-separator';
+        separator.textContent = 'with ≥1 of';
+
+        players.append(separator);
+
+        rule.options.forEach((key, i) => {
+            if (i) {
+                players.append(document.createTextNode(' / '));
+            }
+
+            players.append(playerLabel(displayName(key)));
+        });
+
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.textContent = '×';
+        remove.title = 'Remove restriction';
+
+        remove.onclick = () => {
+            state.atLeastOne.splice(index, 1);
+            state.results = [];
+            render();
+        };
+
+        row.append(players, remove);
+        root.append(row);
+    });
+}
+
+$('tb-add-atleast').onclick = () => {
+    const player = pickers.get('tb-atleast-player').value;
+
+    const options = [...atleastChoices].filter(
+        key => key !== player && inRoster(key)
+    );
+
+    if (!player || !options.length) {
+        notify('Select a player and at least one possible teammate.');
+        return;
+    }
+
+    const signature = options.slice().sort().join('|');
+
+    const exists = state.atLeastOne.some(rule =>
+        rule.player === player &&
+        rule.options.slice().sort().join('|') === signature
+    );
+
+    if (!exists) {
+        state.atLeastOne.push({ player, options });
+    }
+
+    atleastChoices.clear();
+    resetPicker('tb-atleast-player');
+
+    atleastOptions.hidden = true;
+    atleastToggle.setAttribute('aria-expanded', 'false');
+
+    state.results = [];
+
+    notify(
+        exists
+            ? 'Restriction already exists.'
+            : 'Restriction added.'
+    );
+
+    render();
+};
+
+function satisfiesAtLeastOne(teams) {
+    return state.atLeastOne.every(rule =>
+        teams.some(team =>
+            team.some(name => norm(name) === rule.player) &&
+            team.some(name =>
+                rule.options.includes(norm(name))
+            )
+        )
+    );
+}
 
     $('tb-add-together').onclick = () => addRule('together');
     $('tb-add-apart').onclick = () => addRule('apart');
@@ -1259,6 +1474,47 @@ option.addEventListener('click', event => {
             }
         }
 
+        for (const rule of state.atLeastOne) {
+    const group = groups.find(g =>
+        g.some(name => norm(name) === rule.player)
+    );
+
+    if (group?.some(name =>
+        rule.options.includes(norm(name))
+    )) {
+        continue;
+    }
+
+    const possible = rule.options.some(option => {
+        const optionGroup = groups.find(g =>
+            g.some(name => norm(name) === option)
+        );
+
+        if (
+            !optionGroup ||
+            !group ||
+            optionGroup.length + group.length > size()
+        ) {
+            return false;
+        }
+
+        return !state.apart.some(([a, b]) =>
+            (
+                group.some(name => norm(name) === a) &&
+                optionGroup.some(name => norm(name) === b)
+            ) ||
+            (
+                group.some(name => norm(name) === b) &&
+                optionGroup.some(name => norm(name) === a)
+            )
+        );
+    });
+
+    if (!possible) {
+        return 'An at-least-one rule conflicts with the other restrictions.';
+    }
+}
+
         return null;
     }
 
@@ -1313,7 +1569,7 @@ option.addEventListener('click', event => {
 
         function place(remaining) {
             if (!remaining.length) {
-                return true;
+                return satisfiesAtLeastOne(assigned);
             }
 
             if (++nodes > 15000) {
@@ -1488,6 +1744,15 @@ option.addEventListener('click', event => {
                                 continue;
                             }
 
+                            const proposed = result.teams.map((team, i) =>
+    i === a ? [...left, ...groupB] :
+    i === b ? [...right, ...groupA] : team
+);
+
+if (!satisfiesAtLeastOne(proposed)) {
+    continue;
+}
+
                             const delta =
                                 groupB.reduce(
                                     (sum, name) => sum + score(name),
@@ -1572,10 +1837,18 @@ option.addEventListener('click', event => {
        THOROUGH AUTO BALANCE
        ========================================= */
 
-    const DEFAULT_MS_PER_ATTEMPT = 16;
+    const BALANCE_SPEED_KEY = 'mccc-balance-speed-v1';
 
-    let msPerAttempt = DEFAULT_MS_PER_ATTEMPT;
-    let isBalancing = false;
+const savedSpeed = Number(
+    localStorage.getItem(BALANCE_SPEED_KEY)
+);
+
+let msPerAttempt =
+    Number.isFinite(savedSpeed) && savedSpeed > 0
+        ? savedSpeed
+        : null;
+
+let isBalancing = false;
 
     /* =========================================
        BALANCING TIME ESTIMATES
@@ -1605,13 +1878,22 @@ option.addEventListener('click', event => {
     }
 
     function updateTimeEstimate() {
-        const attempts = Number($('tb-attempts').value);
+    const element = $('tb-time-estimate');
+    const attempts = Number($('tb-attempts').value);
 
-        const estimatedTime = attempts * msPerAttempt;
-
-        $('tb-time-estimate').textContent =
-            `Estimated: ~${formatBalanceTime(estimatedTime)}`;
+    if (msPerAttempt === null) {
+        element.textContent = 'Estimated: Not calibrated';
+        element.title = 'Run Auto Balance once to measure its speed.';
+        return;
     }
+
+    const estimatedTime = attempts * msPerAttempt;
+
+    element.textContent =
+        `Estimated: ~${formatBalanceTime(estimatedTime)}`;
+
+    element.title = 'Based on previous Auto Balance runs.';
+}
 
 
     /* =========================================
@@ -1751,9 +2033,9 @@ option.addEventListener('click', event => {
                     const currentMsPerAttempt = elapsed / completed;
 
                     // Smooth the estimated speed to prevent sudden jumps.
-                    msPerAttempt =
-                        msPerAttempt * 0.7 +
-                        currentMsPerAttempt * 0.3;
+                    msPerAttempt = msPerAttempt === null
+    ? currentMsPerAttempt
+    : msPerAttempt * 0.7 + currentMsPerAttempt * 0.3;
 
                     const remainingAttempts = attempts - completed;
 
@@ -1824,8 +2106,17 @@ option.addEventListener('click', event => {
             const totalTime = performance.now() - start;
 
             if (completed > 0) {
-                msPerAttempt = totalTime / completed;
-            }
+    const measuredSpeed = totalTime / completed;
+
+    msPerAttempt = msPerAttempt === null
+        ? measuredSpeed
+        : msPerAttempt * 0.3 + measuredSpeed * 0.7;
+
+    localStorage.setItem(
+        BALANCE_SPEED_KEY,
+        String(msPerAttempt)
+    );
+}
 
             isBalancing = false;
 
@@ -2238,8 +2529,10 @@ option.addEventListener('click', event => {
         state.roster = [];
         state.guests = {};
         state.together = [];
-        state.apart = [];
-        state.results = [];
+state.apart = [];
+state.atLeastOne = [];
+atleastChoices.clear();
+state.results = [];
 
         initTeams(Number($('tb-count').value));
 
@@ -2263,6 +2556,7 @@ option.addEventListener('click', event => {
                 guests: state.guests,
                 together: state.together,
                 apart: state.apart,
+                atLeastOne: state.atLeastOne,
 
                 settings: {
                     count: $('tb-count').value,
@@ -2409,6 +2703,10 @@ option.addEventListener('click', event => {
             state.apart = Array.isArray(saved.apart)
                 ? saved.apart
                 : [];
+
+                state.atLeastOne = Array.isArray(saved.atLeastOne)
+    ? saved.atLeastOne
+    : [];
 
             cleanupRules();
 
