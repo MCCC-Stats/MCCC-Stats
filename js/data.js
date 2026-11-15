@@ -2610,7 +2610,7 @@ const MCCC_EVENTS = [
 
 
 const MCCC_PROJECTION = {
-    name: "MCCC Halloween",
+    name: "MCCC Sub32",
 
     games: [
         "sky_battle",
@@ -2626,66 +2626,58 @@ const MCCC_PROJECTION = {
     
 teams: [
     {
-        id: "red",
-        name: "Red Ravens",
-        color: "#ff4444",
-        icon: "assets/teams/halloween/red.webp",
+        id: "yellow",
+        name: "Yellow Yaks",
+        color: "#ffdd33",
+        icon: "assets/teams/yellow.webp",
         players: [
-            "Haze7895",
-            "FennecFox1247",
-            "DelphinXD",
-            "KweenLegend"
-        ]
-    },
-    {
-        id: "mustard",
-        name: "Mustard Mummies",
-        color: "#c5a333",
-        icon: "assets/teams/halloween/yellow.webp",
-        players: [
-            "KillerCovey",
+            "Pinewoodcar34",
+            "Ev4An",
             "vazzavv",
-            "GriffinTheGopher",
-            "Jamescannon86"
-        ]
-    },
-    {
-        id: "lime",
-        name: "Lime Liches",
-        color: "#76c83c",
-        icon: "assets/teams/halloween/lime.webp",
-        players: [
-            "ItsMrChick3nMan",
-            "Frogo62",
-            "Paddyproo",
-            "Ev4An"
+            "Paddyproo"
         ]
     },
     {
         id: "aqua",
-        name: "Aqua Abominations",
-        color: "#36cbd3",
-        icon: "assets/teams/halloween/aqua.webp",
+        name: "Aqua Axolotls",
+        color: "#55dddd",
+        icon: "assets/teams/aqua.webp",
         players: [
-            "Pinewoodcar34",
-            "Princessnini20",
-            "Creep1et",
-            "Leetavious"
+            "BeomgyusOnlyGf",
+            "RAHplaysMC24",
+            "KweenLegend",
+            "5hys"
         ]
     },
     {
-        id: "violet",
-        name: "Violet Vampires",
-        color: "#a05bd6",
-        icon: "assets/teams/halloween/purple.webp",
+        id: "purple",
+        name: "Purple Pandas",
+        color: "#aa44ff",
+        icon: "assets/teams/purple.webp",
         players: [
-            "Sacred_Bean",
-            "RAHplaysMC24",
+            "GriffinTheGopher",
+            "JollyLemur",
             "Wailed_Burrito61",
-            "JollyLemur"
+            "ItsMrChick3nMan"
+        ]
+    },
+    {
+        id: "pink",
+        name: "Pink Parrots",
+        color: "#ff55cc",
+        icon: "assets/teams/pink.webp",
+        players: [
+            "DelphinXD",
+            "KillerCovey",
+            "Leetavious",
+            "Sacred_Bean"
         ]
     }
+    
 ],
+newcomers: {
+    "BeomgyusOnlyGf": 1200
+}
 }
 
 

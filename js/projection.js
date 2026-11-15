@@ -833,8 +833,7 @@ function renderChart(teams) {
             const icon = document.createElement("img");
             const iconColour = halloweenColour[colour] || colour;
 
-            icon.src =
-                `assets/teams/halloween/${iconColour}.webp`;
+            icon.src = team.icon || `assets/teams/${iconColour}.webp`;
 
             icon.alt = "";
 
