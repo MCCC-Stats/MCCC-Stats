@@ -200,17 +200,7 @@ function setupPlayerSearch() {
 
             const avatar = document.createElement("img");
 
-const username = playerName.toLowerCase();
-
-const size = [
-    "creep1et",
-    "wailed_burrito61",
-    "froopyloopidy",
-    "fennecfox1247",
-    "voidvvy"
-].includes(username) ? 64 : 32;
-
-avatar.src = `https://mc-heads.net/avatar/${encodeURIComponent(username)}/${size}`;
+avatar.src = `https://whiscey.net/render/skin/${encodeURIComponent(playerName)}/face?size=128`;
 
             avatar.alt = "";
             avatar.loading = "lazy";
@@ -330,14 +320,6 @@ function setupNextEventTeams() {
 
     grid.replaceChildren();
 
-    const specialHeads = [
-        "creep1et",
-        "wailed_burrito61",
-        "froopyloopidy",
-        "fennecfox1247",
-        "voidvvy"
-    ];
-
     projection.teams.forEach(team => {
         // Create team card.
         const card = document.createElement("div");
@@ -391,12 +373,7 @@ function setupNextEventTeams() {
             }
 
             const avatar = document.createElement("img");
-            const username = playerName.toLowerCase();
-
-            const size = specialHeads.includes(username) ? 64 : 32;
-
-            avatar.src =
-                `https://mc-heads.net/avatar/${encodeURIComponent(username)}/${size}`;
+            avatar.src = `https://whiscey.net/render/skin/${encodeURIComponent(playerName)}/face?size=128`;
 
             avatar.alt = "";
             avatar.loading = "lazy";

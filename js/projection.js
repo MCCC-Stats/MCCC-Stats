@@ -46,19 +46,8 @@ const gameNames = new Map(
 
     const normalizeName = name => String(name).trim().toLowerCase();
 
-    const getPlayerHead = name => {
-        const username = normalizeName(name);
-
-        const size = [
-            "creep1et",
-            "wailed_burrito61",
-            "froopyloopidy",
-            "fennecfox1247",
-            "voidvvy"
-        ].includes(username) ? 64 : 32;
-
-        return `https://mc-heads.net/avatar/${encodeURIComponent(username)}/${size}`;
-    };
+    const getPlayerHead = name =>
+        `https://whiscey.net/render/skin/${encodeURIComponent(name)}/face?size=128`;
 
     // Only completed, canon events count towards projections.
     const completedEvents = historicalEvents

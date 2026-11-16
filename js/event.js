@@ -64,19 +64,8 @@ const eventId = rawId === "scuffed" ? "scuffed" : Number(rawId);
     return null;
 };
 
-    const getPlayerHead = name => {
-    const username = name.toLowerCase();
-
-    const size = [
-        "creep1et",
-        "wailed_burrito61",
-        "froopyloopidy",
-        "fennecfox1247",
-        "voidvvy"
-    ].includes(username) ? 64 : 32;
-
-    return `https://mc-heads.net/avatar/${encodeURIComponent(username)}/${size}`;
-};
+    const getPlayerHead = name =>
+        `https://whiscey.net/render/skin/${encodeURIComponent(name)}/face?size=128`;
 
     /* ======================================
        EVENT BANNER

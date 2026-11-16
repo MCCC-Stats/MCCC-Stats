@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = id => document.getElementById(id);
 
   const PLACEHOLDER_SKIN =
-  "https://mc-heads.net/body/weeakneSSS/180";
+    "https://whiscey.net/render/skin/MHF_Steve/default?size=512";
 
   const names = [
     ...new Map(
@@ -1604,7 +1604,7 @@ playerCell.append(resultBox);
     }
 
     if (!name) {
-      image.src = PLACEHOLDER_SKIN;
+    image.src = PLACEHOLDER_SKIN;
 
       image.alt =
         id === "a"
@@ -1620,18 +1620,7 @@ playerCell.append(resultBox);
       return;
     }
 
-    const size =
-      name.toLowerCase() ===
-      "wailed_burrito61"
-        ? 360
-        : 180;
-
-    image.src =
-      `https://mc-heads.net/body/${
-        encodeURIComponent(
-          name.toLowerCase()
-        )
-      }/${size}`;
+    image.src = `https://whiscey.net/render/skin/${encodeURIComponent(name)}/default?size=512`;
 
     image.alt =
       `${name}'s Minecraft skin`;
@@ -1926,35 +1915,10 @@ playerCell.append(resultBox);
 
 const avatar = create("img");
 
-const skinUsername = name.trim().toLowerCase();
-
-const largeHeads = [
-  "creep1et",
-  "sacred_bean",
-  "wailed_burrito61",
-  "froopyloopidy",
-  "awsomeants",
-  "fennecfox1247",
-  "voidvvy"
-];
-
-const size = largeHeads.includes(skinUsername) ? 64 : 32;
-
-avatar.src =
-  `https://mc-heads.net/avatar/${encodeURIComponent(skinUsername)}/${size}`;
+avatar.src = `https://whiscey.net/render/skin/${encodeURIComponent(name)}/face?size=128`;
 
 avatar.alt = "";
 avatar.loading = "lazy";
-
-avatar.onerror = () => {
-  if (!avatar.dataset.fallback) {
-    avatar.dataset.fallback = "1";
-    avatar.src =
-      `https://minotar.net/avatar/${encodeURIComponent(skinUsername)}/64`;
-  } else {
-    avatar.style.visibility = "hidden";
-  }
-};
 
 
 

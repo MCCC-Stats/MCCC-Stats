@@ -123,19 +123,8 @@ function notify(message) {
         });
     });
 
-    const special = new Set([
-        'creep1et',
-        'fennecfox1247',
-        'wailed_burrito61',
-        'froopyloopidy',
-        'sacred_bean'
-    ]);
-
     function avatar(name) {
-        const username = norm(name);
-        const resolution = special.has(username) ? 64 : 32;
-
-        return `https://mc-heads.net/avatar/${encodeURIComponent(username)}/${resolution}`;
+        return `https://whiscey.net/render/skin/${encodeURIComponent(name)}/face?size=128`;
     }
 
     function face(name) {

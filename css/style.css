@@ -2087,7 +2087,7 @@ a.event-score-name-content:hover strong {
     flex-direction: column;
     align-items: center;
     gap: 16px;
-    margin-bottom: 8px;
+    margin-bottom: 40px;
 }
 
 .player-identity h1 {
@@ -2106,15 +2106,16 @@ a.event-score-name-content:hover strong {
     overflow-wrap: anywhere;
 }
 
+
 .player-skin {
     display: block;
-    width: 220px;
-    height: 420px;
-    max-width: 100%;
-
+    width: 320px;
+    height: 512px;
+    max-width: none;
     object-fit: contain;
-    image-rendering: pixelated;
+    margin-left: -20px;
 }
+
 
 .player-filters {
     display: flex;
@@ -4544,4 +4545,26 @@ body:not(:has(.tb-page)) nav {
 html {
     scrollbar-gutter: stable;
 }
+
+
+#player-skin {
+    width: 320px !important;
+    height: 512px !important;
+    max-width: none !important;
+    transform: scale(1.15);
+    transform-origin: center top;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+
+.player-identity {
+    align-items: center;
+}
+
+.player-skin {
+    position: relative;
+    left: 0;
+}
+
 

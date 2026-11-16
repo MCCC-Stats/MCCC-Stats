@@ -171,19 +171,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function createPlayerHead(name) {
     const image = document.createElement("img");
-    const username = normalizeName(name);
-    const large = ["creep1et", "sacred_bean", "wailed_burrito61", "froopyloopidy", "fennecfox1247", "voidvvy"].includes(username);
-    image.src = `https://mc-heads.net/avatar/${encodeURIComponent(username)}/${large ? 64 : 32}`;
+
+    image.src = `https://whiscey.net/render/skin/${encodeURIComponent(name)}/face?size=128`;
     image.alt = "";
     image.loading = "lazy";
-    image.onerror = () => {
-      if (!image.dataset.fallback) {
-        image.dataset.fallback = "1";
-        image.src = `https://minotar.net/avatar/${encodeURIComponent(name)}/64`;
-      } else image.style.visibility = "hidden";
-    };
+
     return image;
-  }
+}
 
   function makeRow(player, rank) {
     const row = document.createElement("tr");

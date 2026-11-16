@@ -41,37 +41,12 @@
      PLAYER HEADS
      ========================================== */
 
-  const specialHeads = new Set([
-    "creep1et",
-    "sacred_bean",
-    "wailed_burrito61",
-    "froopyloopidy",
-    "awsomeants",
-    "fennecfox1247",
-    "voidvvy"
-  ]);
-
   function playerImage(name) {
-    const username = encodeURIComponent(name.toLowerCase());
-    const size = specialHeads.has(name.toLowerCase()) ? 64 : 32;
-
     return `
       <img
-        src="https://mc-heads.net/avatar/${username}/${size}"
+        src="https://whiscey.net/render/skin/${encodeURIComponent(name)}/face?size=128"
         alt=""
         loading="lazy"
-        onerror="
-          if (!this.dataset.fallback) {
-            this.dataset.fallback = '1';
-            this.src = 'https://minotar.net/avatar/${username}/64';
-          } else if (this.dataset.fallback === '1') {
-            this.dataset.fallback = '2';
-            this.src = 'https://mc-heads.net/avatar/Steve/64';
-          } else {
-            this.onerror = null;
-            this.style.visibility = 'hidden';
-          }
-        "
       >
     `;
   }

@@ -186,13 +186,12 @@ function getRadarAppearances() {
     nameElement.textContent = player;
     document.title = `${player} | MCCC Stats`;
 
-    const skin = document.getElementById("player-skin");
-    
-const skinSize = player.toLowerCase() === "wailed_burrito61" ? 360 : 180;
+const skin = document.getElementById("player-skin");
 
-skin.src = `https://mc-heads.net/body/${encodeURIComponent(player.toLowerCase())}/${skinSize}`;
+skin.src = `https://whiscey.net/render/skin/${encodeURIComponent(player)}/default?size=512`;
 
-    skin.alt = `${player}'s Minecraft skin`;
+
+skin.alt = `${player}'s Minecraft skin`;
 
     // ------------------------------------------
     // HELPERS
@@ -1466,18 +1465,34 @@ svg.append(averageLine);
 
     const circles = [];
 
-    const labelStep = Math.max(
-        1,
-        Math.ceil(entries.length / 10)
-    );
+    // Adjust X-axis labels based on available space.
+const availableWidth = progressContainer.clientWidth || W;
+const estimatedLabelWidth = 75;
+
+const maxLabels = Math.max(
+    1,
+    Math.floor(availableWidth / estimatedLabelWidth)
+);
+
+const labelStep = Math.max(
+    1,
+    Math.ceil(entries.length / maxLabels)
+);
+
+let lastLabelX = -Infinity;
+const minLabelSpacing = 65;
 
     entries.forEach((entry, index) => {
         const point = startingPoints[index];
 
-        if (
-            index % labelStep === 0 ||
-            index === entries.length - 1
-        ) {
+        const labelX = targetPoints[index].x;
+
+if (
+    (index % labelStep === 0 ||
+     index === entries.length - 1) &&
+    labelX - lastLabelX >= minLabelSpacing
+) {
+    lastLabelX = labelX;
             svg.append(
                 make("text", {
                     x: targetPoints[index].x,
