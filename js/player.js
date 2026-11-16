@@ -1464,6 +1464,14 @@ svg.append(averageLine);
     }
 
     const circles = [];
+    // Find the best and worst performances.
+const bestValue = isRank
+    ? Math.min(...values)
+    : Math.max(...values);
+
+const worstValue = isRank
+    ? Math.max(...values)
+    : Math.min(...values);
 
     // Adjust X-axis labels based on available space.
 const availableWidth = progressContainer.clientWidth || W;
@@ -1508,22 +1516,57 @@ if (
             class: "progress-point-link"
         });
 
-        const circle = make("circle", {
-            cx: point.x,
-            cy: point.y,
-            r: 6,
-            class: "progress-point"
-        });
+        const isBest = entry.value === bestValue;
+const isWorst = entry.value === worstValue;
 
-        // Disable the previous draw/pop animations.
-        circle.style.setProperty(
-            "animation",
-            "none",
-            "important"
-        );
+// Create the normal gold point.
+const circle = make("circle", {
+    cx: point.x,
+    cy: point.y,
+    r: 6,
+    class: "progress-point"
+});
 
-        circles.push(circle);
-        link.append(circle);
+circle.style.setProperty(
+    "animation",
+    "none",
+    "important"
+);
+
+// Add a separate ring for best and worst performances.
+if (bestValue !== worstValue && (isBest || isWorst)) {
+    const ring = make("circle", {
+        cx: point.x,
+        cy: point.y,
+        r: 12,
+        class: "progress-extreme-ring"
+    });
+
+    ring.style.setProperty(
+        "fill",
+        "none",
+        "important"
+    );
+
+    ring.style.setProperty(
+        "stroke",
+        isBest ? "#4caf7b" : "#ef7777",
+        "important"
+    );
+
+    ring.style.setProperty(
+        "stroke-width",
+        "3px",
+        "important"
+    );
+
+    ring.style.pointerEvents = "none";
+
+    link.appendChild(ring);
+}
+
+circles.push(circle);
+link.appendChild(circle);
 
         // The tooltip follows the point's current position.
         const showTooltip = () => {
@@ -1587,9 +1630,18 @@ function updatePositions(t) {
 
     // Move the gold points.
     circles.forEach((circle, index) => {
-        circle.setAttribute("cx", currentPoints[index].x);
-        circle.setAttribute("cy", currentPoints[index].y);
-    });
+    circle.setAttribute("cx", currentPoints[index].x);
+    circle.setAttribute("cy", currentPoints[index].y);
+
+    const ring = circle.parentElement.querySelector(
+        ".progress-extreme-ring"
+    );
+
+    if (ring) {
+        ring.setAttribute("cx", currentPoints[index].x);
+        ring.setAttribute("cy", currentPoints[index].y);
+    }
+});
 
     // Move the gold connecting line.
     if (line) {
