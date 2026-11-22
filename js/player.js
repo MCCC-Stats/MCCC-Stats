@@ -418,34 +418,50 @@ skin.alt = `${player}'s Minecraft skin`;
     // ------------------------------------------
 
     function renderEventStatistics(appearances) {
-        const coins = appearances.map(entry => entry.coins);
+    const coins = appearances.map(entry => entry.coins);
 
-        const ranks = appearances
-            .map(entry => entry.rank)
-            .filter(rank => rank !== null);
+    const percentiles = appearances
+        .map(entry => {
+            const totalPlayers = (entry.event.teams || [])
+                .flatMap(team => team.players || []).length;
 
-        const wins = appearances.filter(
-            entry => entry.result.win
-        ).length;
+            if (entry.rank === null || totalPlayers === 0) {
+                return null;
+            }
 
-        const dodgebolts = appearances.filter(
-            entry => entry.result.dodgebolt
-        ).length;
+            if (totalPlayers === 1) return 100;
 
-        document.getElementById("player-coin-average").textContent =
-            coins.length ? formatNumber(average(coins)) : "—";
+            return (
+                (totalPlayers - entry.rank) /
+                (totalPlayers - 1)
+            ) * 100;
+        })
+        .filter(value => value !== null);
 
-        document.getElementById("player-rank-average").textContent =
-            ranks.length ? average(ranks).toFixed(1) : "—";
+    const wins = appearances.filter(
+        entry => entry.result.win
+    ).length;
 
-        document.getElementById("player-wins").textContent = wins;
+    const dodgebolts = appearances.filter(
+        entry => entry.result.dodgebolt
+    ).length;
 
-        document.getElementById("player-dodgebolts").textContent =
-            dodgebolts;
+    document.getElementById("player-coin-average").textContent =
+        coins.length ? formatNumber(average(coins)) : "—";
 
-        document.getElementById("player-events").textContent =
-            appearances.length;
-    }
+    document.getElementById("player-rank-average").textContent =
+        percentiles.length
+            ? average(percentiles).toFixed(1) + "%"
+            : "—";
+
+    document.getElementById("player-wins").textContent = wins;
+
+    document.getElementById("player-dodgebolts").textContent =
+        dodgebolts;
+
+    document.getElementById("player-events").textContent =
+        appearances.length;
+}
 
     // ------------------------------------------
     // EVENT HISTORY
