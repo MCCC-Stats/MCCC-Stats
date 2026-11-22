@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function setupProjection() {
     const gameSelect = document.getElementById("projection-game");
     const eventsCountSelect = document.getElementById("projection-events-count");
+    const noncanonToggle = document.getElementById("projection-include-noncanon");
     const individualBody = document.getElementById("projection-individual-body");
     const teamResults = document.getElementById("projection-team-results");
     const chart = document.getElementById("projection-chart");
@@ -49,10 +50,12 @@ const gameNames = new Map(
     const getPlayerHead = name =>
         `https://whiscey.net/render/skin/${encodeURIComponent(name)}/face?size=128`;
 
-    // Only completed, canon events count towards projections.
-    const completedEvents = historicalEvents
-        .filter(event => !event.noncanon)
+    // Include non-canon events when the toggle is enabled.
+function getCompletedEvents() {
+    return historicalEvents
+        .filter(event => noncanonToggle?.checked || !event.noncanon)
         .sort((a, b) => b.id - a.id);
+}
 
     // Find a player's score even if their username has
     // different capitalisation in older events.
@@ -85,18 +88,18 @@ const gameNames = new Map(
     function getPlayerHistory(playerName) {
     const selection = eventsCountSelect.value;
 
-    let eligibleEvents = completedEvents;
+    let eligibleEvents = getCompletedEvents();
     let limit = getHistoryLimit();
 
     if (selection === "season1") {
-        eligibleEvents = completedEvents.filter(
+        eligibleEvents = getCompletedEvents().filter(
             event => event.season === 1
         );
         limit = Infinity;
     }
 
     if (selection === "season2") {
-        eligibleEvents = completedEvents.filter(
+        eligibleEvents = getCompletedEvents().filter(
             event => event.season === 2
         );
         limit = Infinity;
@@ -212,7 +215,7 @@ const score = gameScores.every(value => value !== null)
 
         // Collect average individual scores for each
         // game and event size.
-        completedEvents.forEach(event => {
+        getCompletedEvents().forEach(event => {
             const teamCount = event.teams?.length;
 
             if (!teamCount) return;
@@ -301,7 +304,7 @@ factors.set(
         return factors;
     }
 
-    const normalizationFactors = getNormalizationFactors();
+    let normalizationFactors = getNormalizationFactors();
 
     function normalizeGameScore(score, event, gameId) {
         const teamCount = event.teams?.length;
@@ -329,7 +332,7 @@ factors.set(
             counts[game.id] = 0;
         });
 
-        completedEvents.forEach(event => {
+        getCompletedEvents().forEach(event => {
             Object.entries(event.scores || {}).forEach(
                 ([playerName, scores]) => {
                     if (!Array.isArray(scores)) return;
@@ -388,7 +391,7 @@ factors.set(
         return weights;
     }
 
-    const gameWeights = getGameWeights();
+    let gameWeights = getGameWeights();
 
     function getNewcomerTotal(playerName) {
         const newcomers = projection.newcomers || {};
@@ -560,9 +563,12 @@ const historyLabel =
     "last " + selection + " appearances";
 
 note.textContent =
-    "Next Event projection based on each player's " +
+    "Projection based on each player's " +
     historyLabel +
-    ". Newcomers use estimated scores. " +
+    (noncanonToggle?.checked
+        ? ", including non-canon events."
+        : ", excluding non-canon events.") +
+    " Newcomers use estimated scores. " +
     "N/A means insufficient historical data.";
         }
     }
@@ -1159,6 +1165,16 @@ gameSelect.addEventListener("change", () => {
 
 updateProjectionGameIcon();
 eventsCountSelect.addEventListener("change", buildLeaderboard);
+
+if (noncanonToggle) {
+    noncanonToggle.checked = true;
+
+    noncanonToggle.addEventListener("change", () => {
+        normalizationFactors = getNormalizationFactors();
+        gameWeights = getGameWeights();
+        buildLeaderboard();
+    });
+}
 
 renderOrderControls();
 buildLeaderboard();

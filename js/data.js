@@ -2599,6 +2599,102 @@ const MCCC_EVENTS = [
         "DelphinXD": [185, 165, 693, 308, 1025, 658],
         "KillerCovey": [100, 322.5, 66, 160, 225, 0]
     }
+},
+
+{
+    id: 24,
+    name: "MCCC Sub 32",
+    date: null,
+    season: 2,
+    noncanon: true,
+    banner: "assets/backgrounds/main-lobby.webp",
+
+    dodgebolt: {
+        finalists: ["pink", "yellow"],
+        winner: "pink"
+    },
+
+    games: [
+        "sky_battle",
+        "rocket_spleef_rush",
+        "tgttos",
+        "parkour_warrior",
+        "hole_in_the_wall",
+        "battle_box"
+    ],
+
+    multipliers: [1, 1.5, 2, 2, 2.5, 3],
+
+    teams: [
+        {
+            id: "yellow",
+            name: "Yellow Yaks",
+            color: "#ffdd33",
+            players: [
+                "Pinewoodcar34",
+                "Ev4An",
+                "vazzavv",
+                "Paddyproo"
+            ]
+        },
+        {
+            id: "aqua",
+            name: "Aqua Axolotls",
+            color: "#55dddd",
+            players: [
+                "BeomgyusOnlyGf",
+                "RAHplaysMC24",
+                "KweenLegend",
+                "5hys"
+            ]
+        },
+        {
+            id: "purple",
+            name: "Purple Pandas",
+            color: "#aa44ff",
+            players: [
+                "GriffinTheGopher",
+                "JollyLemur",
+                "Wailed_Burrito61",
+                "ItsMrChick3nMan"
+            ]
+        },
+        {
+            id: "pink",
+            name: "Pink Parrots",
+            color: "#ff55cc",
+            players: [
+                "DelphinXD",
+                "KillerCovey",
+                "Leetavious",
+                "Sacred_Bean"
+            ]
+        }
+    ],
+
+    // SB, RSR, TGTTOS, PKW, HITW, BB
+    // Individual scores are unmultiplied.
+    scores: {
+        "Pinewoodcar34":     [578, 75, 177, 176, 280, 427.5],
+        "Ev4An":             [1286, 150, 775, 512, 685, 652.5],
+        "vazzavv":           [874, 750, 1324, 1028, 1160, 517.5],
+        "Paddyproo":         [890, 900, 602, 696, 765, 450],
+
+        "BeomgyusOnlyGf":    [144, 125, 193, 344, 675, 165],
+        "RAHplaysMC24":      [360, 625, 770, 704, 660, 300],
+        "KweenLegend":       [268, 550, 765, 774, 1085, 187.5],
+        "5hys":              [252, 1000, 586, 506, 750, 210],
+
+        "GriffinTheGopher":  [343, 325, 245, 130, 275, 225],
+        "JollyLemur":        [215, 100, 66, 76, 285, 180],
+        "Wailed_Burrito61":  [739, 1250, 940, 890, 1370, 450],
+        "ItsMrChick3nMan":   [967, 850, 1169, 820, 1660, 270],
+
+        "DelphinXD":         [617, 1025, 785, 734, 755, 600],
+        "KillerCovey":       [529, 625, 285, 176, 535, 510],
+        "Leetavious":        [325, 575, 583, 466, 275, 645],
+        "Sacred_Bean":       [793, 975, 1505, 1028, 1500, 622.5]
+    }
 }
 
 ];
@@ -2676,7 +2772,6 @@ teams: [
     
 ],
 newcomers: {
-    "BeomgyusOnlyGf": 1200
 }
 }
 

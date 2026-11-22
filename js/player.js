@@ -133,8 +133,8 @@ function getRadarAppearances() {
 
     const eligibleEvents = events
         .filter(event =>
-            event.noncanon !== true &&
-            event.canon !== false &&
+            (noncanonCheckbox.checked ||
+    (event.noncanon !== true && event.canon !== false)) &&
             playedFullEvent(event, player) &&
             (event.teams || []).some(team =>
                 (team.players || []).some(name =>
@@ -1093,8 +1093,8 @@ if (count < 3) return;
         const selection = progressHistory.value;
 
         const eligible = events.filter(event =>
-            event.noncanon !== true &&
-            event.canon !== false &&
+            (noncanonCheckbox.checked ||
+    (event.noncanon !== true && event.canon !== false)) &&
             playedFullEvent(event, player) &&
             Boolean(getPlayerTeam(event)) &&
             (selection !== "season1" || getEventSeason(event) === 1) &&
