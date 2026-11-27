@@ -135,7 +135,7 @@ function getRadarAppearances() {
         .filter(event =>
             (noncanonCheckbox.checked ||
     (event.noncanon !== true && event.canon !== false)) &&
-            playedFullEvent(event, player) &&
+            (fullEventsCheckbox.checked || playedFullEvent(event, player)) &&
             (event.teams || []).some(team =>
                 (team.players || []).some(name =>
                     name.toLowerCase() === player.toLowerCase()
@@ -331,6 +331,9 @@ skin.alt = `${player}'s Minecraft skin`;
     // FILTERS
     // ------------------------------------------
     function playedFullEvent(event, playerName) {
+        if ((event.incompletePlayers || []).includes(playerName)) {
+        return false;
+    }    
     const participation = Object.entries(event.participation || {})
         .find(([name]) =>
             name.toLowerCase() === playerName.toLowerCase()
@@ -1111,7 +1114,7 @@ if (count < 3) return;
         const eligible = events.filter(event =>
             (noncanonCheckbox.checked ||
     (event.noncanon !== true && event.canon !== false)) &&
-            playedFullEvent(event, player) &&
+            (fullEventsCheckbox.checked || playedFullEvent(event, player)) &&
             Boolean(getPlayerTeam(event)) &&
             (selection !== "season1" || getEventSeason(event) === 1) &&
             (selection !== "season2" || getEventSeason(event) === 2)

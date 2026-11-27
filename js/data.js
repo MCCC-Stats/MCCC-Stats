@@ -2386,6 +2386,7 @@ const MCCC_EVENTS = [
     name: "MCCC 19",
     date: null,
     season: 2,
+    incompletePlayers: ["Wailed_Burrito61"],
     banner: "assets/backgrounds/main-lobby.webp",
 
     dodgebolt: {
